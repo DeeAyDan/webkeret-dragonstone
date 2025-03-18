@@ -1,0 +1,64 @@
+@font-face {
+  font-family: "GothicTitleFont";
+  src: url(../../fonts/OldLondon.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+$bg-color: #1a1a1d;
+$highlight-color: #6A1E55;
+$text-color: #bcbcbc;
+
+
+.header {
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  text-align: center;
+  font-family: "GothicTitleFont", sherif;
+  font-size: 3.4rem;
+  padding-top: 0.4rem;
+  padding-bottom: 1.5rem;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 0;
+}
+button {
+  position: relative;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  padding-bottom: 0.3rem;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0.3rem;
+  background-color: $text-color;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+button:hover::before {
+  width: 100%;
+  left: 0;
+}
+
+.active::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 1%;
+  width: 98%;
+  height: 0.3rem;
+  background-color: $highlight-color;
+}

@@ -1,4 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'MyGothicFont';
+    src: url('./app/fonts/GingkoFraktur.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 $bg-color: #1A1A1D;
 $accent-color: #3B1C32;
 $highlight-color: #6A1E55;
@@ -7,11 +13,13 @@ $text-color: #bcbcbc;
 
 
 body{
-    background-color: $bg-color;
+    background-color: $accent-color;
     margin: 0;
     padding: 0;
 }
 
 *{
     color: $text-color;
+    font-family: 'MyGothicFont', serif;
+    font-size: 1.1rem;
 }

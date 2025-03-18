@@ -1,9 +1,19 @@
 <app-header></app-header>
-<app-cart></app-cart>
-<app-login></app-login>
-<app-register></app-register>
-<app-page-not-found></app-page-not-found>
+@if (page === 'home') {
 <app-home></app-home>
+}
+@else if (page === 'cart') {
+<app-cart></app-cart>
+}
+@else if (page === 'login') {
+<app-login></app-login>
+}
+@else if (page === 'register') {
+<app-register></app-register>
+}
+@else {
+<app-page-not-found></app-page-not-found>
+}
 <!--
 <router-outlet />
 -->
