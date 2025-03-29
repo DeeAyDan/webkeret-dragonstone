@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { ShopComponent } from './pages/shop/shop.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -10,7 +11,7 @@ import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, CartComponent, HeaderComponent,
+  imports: [RouterOutlet, HomeComponent, ShopComponent, CartComponent, HeaderComponent,
             LoginComponent, RegisterComponent, PageNotFoundComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -18,5 +19,5 @@ import { NgIf } from '@angular/common';
 export class AppComponent {
   title = 'dragonstone';
 
-  page = 'home';
+  page = 'shop';
 }
