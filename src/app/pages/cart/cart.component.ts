@@ -17,7 +17,6 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     // Replace '1' with dynamic user ID when authentication is implemented
-    this.cart = this.cartService.getCartByUserId(1);
   }
 
   getTotalPrice(): number {

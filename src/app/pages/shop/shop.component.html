@@ -1,1 +1,12 @@
-<p>shop works!</p>
+<div class="shop-container">
+  <div class="product-grid">
+    <div *ngFor="let product of products" class="product-card">
+      <img [src]="product.images[0]" [alt]="product.name" />
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+      <p class="price">${{ product.price }}</p>
+      <p class="rating">⭐ {{ product.rating }}/5</p>
+      <button>Add to Cart</button>
+    </div>
+  </div>
+</div>
