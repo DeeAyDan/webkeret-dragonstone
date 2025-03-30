@@ -19,5 +19,5 @@ import { NgIf } from '@angular/common';
 export class AppComponent {
   title = 'dragonstone';
 
-  page = 'shop';
+  page = 'cart';
 }
