@@ -1,36 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
+import { userData } from '../data/userData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private users: User[] = [
-    {
-      id: 1,
-      name: 'Daniel',
-      email: 'daniel@example.com',
-      password: 'password123',
-      address: '123 Main St, Budapest',
-      phone: '+36 20 123 4567'
-    },
-    {
-      id: 2,
-      name: 'Alice',
-      email: 'alice@example.com',
-      password: 'securepass',
-      address: '456 Gothic Ave, Debrecen',
-      phone: '+36 30 987 6543'
-    },
-    {
-      id: 3,
-      name: 'Bob',
-      email: 'bob@example.com',
-      password: 'letmein',
-      address: '789 Dark Alley, Szeged'
-    }
-  ];
+  private users: User[] = userData;
 
   constructor() {}
 
@@ -38,7 +15,7 @@ export class UserService {
     return this.users;
   }
 
-  getUserById(id: number): User | undefined {
+  getUserById(id: string): User | undefined {
     return this.users.find(user => user.id === id);
   }
 }

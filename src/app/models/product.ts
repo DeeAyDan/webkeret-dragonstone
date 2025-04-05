@@ -8,7 +8,7 @@ export interface Product {
     stock: number;
     categories: string[];
     images: string[];
-    rating: number;
     reviews: Review[];
+    averageRating?: number;
     discount?: number;
 }

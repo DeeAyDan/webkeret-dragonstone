@@ -1,41 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { ReviewService } from './review.service';
+import { reviewData } from '../data/reviewData';
+import { ProductData } from '../data/productdata';
+import { Review } from '../models/review';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  private products: Product[] = [];
+  private products: Product[] = ProductData;
+  private reviews: Review[] = reviewData;
 
-  constructor(private reviewService: ReviewService) {
-    this.products = [
-      {
-        id: '101',
-        name: 'Gothic Shield Ring',
-        description: 'A stylish ring made of stainless steel.',
-        price: 49.99,
-        stock: 10,
-        categories: ['Jewelry', 'Gothic'],
-        images: ['images/ring1.jpg'],
-        rating: 4.5,
-        reviews: this.reviewService.getReviewsByProduct('101'),
-        discount: 10
-      },
-      {
-        id: '102',
-        name: 'Black skull Necklace',
-        description: 'A classic black skull necklace with chocker and silver pendant.',
-        price: 29.99,
-        stock: 15,
-        categories: ['Jewelry', 'Gothic'],
-        images: ['images/necklace1.jpg'],
-        rating: 4.2,
-        reviews: this.reviewService.getReviewsByProduct('102')
-      }
-    ];
-  }
+  constructor() {
+    // Initialize products with reviews
+    this.products = this.products.map(product => {
+      const productReviews = this.reviews.filter(review => review.productID === product.id);
+      return { ...product, reviews: productReviews };
+    });
+  } 
 
   getProducts(): Product[] {
     return this.products;
@@ -43,5 +27,19 @@ export class ProductService {
 
   getProductById(id: string): Product | undefined {
     return this.products.find(product => product.id === id);
+  }
+
+  getPriceById(id: string): number | undefined {
+    const product = this.getProductById(id);
+    return product?.price;
+  }
+  
+  getProductAverageRating(id: string): number | undefined {
+    const product = this.getProductById(id);
+    if (product && product.reviews.length > 0) {
+      const totalRating = product.reviews.reduce((sum, review) => sum + review.rating, 0);
+      return totalRating / product.reviews.length;
+    }
+    return undefined;
   }
 }
