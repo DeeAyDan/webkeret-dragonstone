@@ -10,5 +10,6 @@ export interface Product {
     images: string[];
     reviews: Review[];
     averageRating?: number;
+    onSale?: boolean;
     discount?: number;
 }

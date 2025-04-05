@@ -17,8 +17,12 @@ export class ShopComponent implements OnInit {
   ngOnInit() {
     this.products = this.productService.getProducts();
     this.products.forEach(product => {
-      product.averageRating = this.productService.getProductAverageRating(product.id) || 0;
+      product.averageRating = this.productService.getProductAverageRating(product.id);
     });
+  }
+
+  getDiscountedPrice(price: number, discount: number): number {
+    return Math.round(price * (1 - discount) * 100) / 100;
   }
 
 }

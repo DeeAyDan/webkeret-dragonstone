@@ -3,9 +3,17 @@
     <div *ngFor="let product of products" class="product-card">
       <img [src]="product.images[0]" [alt]="product.name" />
       <h3>{{ product.name }}</h3>
-      <p>{{ product.description }}</p>
-      <p class="price">${{ product.price }}</p>
-      <p class="rating">⭐ {{ product.averageRating }}/5</p>
+      <div class="price-container">
+        <div><p  [ngStyle]="{ 
+          'color': product.onSale ? 'red' : 'inherit',
+          'text-decoration': product.onSale ? 'line-through' : 'normal',
+          'font-size': product.onSale ? '0.8em' : '1em',
+          'display': product.onSale ? 'inline' : 'block',
+        }" class="price">${{product.price}}</p>
+              <p *ngIf="product.onSale" class="sale-price">
+                ${{getDiscountedPrice(product.price, product.discount ?? 1) }}</p></div>
+                <p [ngStyle]="{'color': (product.averageRating ?? 0) <= 1 ? 'red' : 'inherit'}" class="rating"> {{ product.averageRating ?? 'N/A' }}/5</p>
+      </div>
       <button>Add to Cart</button>
     </div>
   </div>

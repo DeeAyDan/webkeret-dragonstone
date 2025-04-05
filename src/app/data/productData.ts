@@ -10,7 +10,8 @@ export const ProductData: Product[] = [
         categories: ['Jewelry', 'Gothic'],
         images: ['images/ring1.jpg'],
         reviews: [],
-        discount: 10
+        onSale: true,
+        discount: 0.15
       },
       {
         id: '102',
@@ -20,6 +21,8 @@ export const ProductData: Product[] = [
         stock: 15,
         categories: ['Jewelry', 'Gothic'],
         images: ['images/necklace1.jpg'],
-        reviews: []
+        reviews: [],
+        onSale: false,
+        discount: 0.5
       }   
 ]
