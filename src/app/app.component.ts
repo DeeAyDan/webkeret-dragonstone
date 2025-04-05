@@ -19,5 +19,10 @@ import { NgIf } from '@angular/common';
 export class AppComponent {
   title = 'dragonstone';
 
-  page = 'shop';
+  page: String = 'home';
+
+  changePage(page: String) {
+    console.log('Page changed to:', page);
+    this.page = page;
+  }
 }

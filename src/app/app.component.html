@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header (selectedPage)="changePage($event)"></app-header>
 @if (page === 'home') {
 <app-home></app-home>
 }

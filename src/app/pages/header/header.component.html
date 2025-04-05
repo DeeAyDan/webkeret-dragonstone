@@ -1,11 +1,11 @@
 <div class="header">
     <div class="title">Dragonstone</div>
-    <div class="navbar">
-        <button class="active">Home</button>
-        <button>Store</button>
-        <button>Page not found</button>
-        <button>Cart</button>
-        <button>Login</button>
-        <button>Register</button>
-    </div>
+    
+</div>
+<div class="navbar">
+    <button (click)="pageSwitch('home')"  class="active">Home</button>
+    <button (click)="pageSwitch('shop')" >Store</button>
+    <button (click)="pageSwitch('cart')">Cart</button>
+    <button (click)="pageSwitch('login')">Login</button>
+    <button  (click)="pageSwitch('register')">Register</button>
 </div>

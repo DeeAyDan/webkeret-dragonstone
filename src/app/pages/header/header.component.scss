@@ -22,11 +22,15 @@ $text-color: #bcbcbc;
   padding-top: 0.4rem;
   padding-bottom: 1.5rem;
 }
+
 .navbar {
+  background-color: $bg-color;
   display: flex;
   align-items: center;
   justify-content: space-around;
   padding-bottom: 0;
+  position: sticky;
+  top: 0;
 }
 button {
   position: relative;

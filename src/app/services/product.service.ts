@@ -13,8 +13,8 @@ export class ProductService {
     this.products = [
       {
         id: '101',
-        name: 'Gothic Skull Ring',
-        description: 'A stylish skull ring made of stainless steel.',
+        name: 'Gothic Shield Ring',
+        description: 'A stylish ring made of stainless steel.',
         price: 49.99,
         stock: 10,
         categories: ['Jewelry', 'Gothic'],
@@ -25,8 +25,8 @@ export class ProductService {
       },
       {
         id: '102',
-        name: 'Black Choker Necklace',
-        description: 'A classic black choker necklace with silver pendant.',
+        name: 'Black skull Necklace',
+        description: 'A classic black skull necklace with chocker and silver pendant.',
         price: 29.99,
         stock: 15,
         categories: ['Jewelry', 'Gothic'],
