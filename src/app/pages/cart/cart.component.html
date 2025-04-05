@@ -12,6 +12,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of displayItems">
+          <td><img class="cart-image" src="{{item.product.images[0]}}" alt="{{item.product.name}}"></td>
           <td>{{ item.product.name }}</td>
           <td>{{ item.quantity }}</td>
           <td>${{ item.product.price }}</td>

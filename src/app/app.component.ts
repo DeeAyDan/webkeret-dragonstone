@@ -22,7 +22,6 @@ export class AppComponent {
   page: String = 'home';
 
   changePage(page: String) {
-    console.log('Page changed to:', page);
     this.page = page;
   }
 }

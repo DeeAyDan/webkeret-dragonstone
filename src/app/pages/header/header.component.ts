@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     if (this.navButtons) {
       this.navButtons.forEach((button) => {
         button.classList.remove('active');
-        console.log('Button removed:', button);
       });
     }
 
