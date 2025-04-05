@@ -38,8 +38,8 @@ export class ProductService {
     const product = this.getProductById(id);
     if (product && product.reviews.length > 0) {
       const totalRating = product.reviews.reduce((sum, review) => sum + review.rating, 0);
-      return totalRating / product.reviews.length;
-    }
+      return Math.round((totalRating / product.reviews.length) * 10) / 10;
+     }
     return undefined;
   }
 }
