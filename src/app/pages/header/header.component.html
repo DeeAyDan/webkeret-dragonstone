@@ -2,9 +2,24 @@
     <div class="title">Dragonstone</div>
 </div>
 <div class="navbar">
-    <button (click)="pageSwitch('home')" id="home"  class="nav-button active">Home</button>
-    <button (click)="pageSwitch('shop')" id="shop" class="nav-button" >Store</button>
-    <button (click)="pageSwitch('cart')" id="cart" class="nav-button">Cart</button>
-    <button (click)="pageSwitch('login')" id="login" class="nav-button">Login</button>
-    <button  (click)="pageSwitch('register')" id="register" class="nav-button">Register</button>
+<button (click)="pageSwitch('home')" 
+        class="nav-button" 
+        [ngClass]="{ 'active': currentPage === 'home' }">Home</button>
+
+<button (click)="pageSwitch('shop')" 
+        class="nav-button" 
+        [ngClass]="{ 'active': currentPage === 'shop' }">Store</button>
+
+<button (click)="pageSwitch('cart')" 
+        class="nav-button" 
+        [ngClass]="{ 'active': currentPage === 'cart' }">Cart</button>
+
+<button (click)="pageSwitch('login')" 
+        class="nav-button" 
+        [ngClass]="{ 'active': currentPage === 'login' }">Login</button>
+
+<button (click)="pageSwitch('register')" 
+        class="nav-button" 
+        [ngClass]="{ 'active': currentPage === 'register' }">Register</button>
+
 </div>

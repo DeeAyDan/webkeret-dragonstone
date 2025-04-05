@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [NgClass],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @Output() selectedPage: EventEmitter<string> = new EventEmitter();
   isSidebarOpen = false;
-  navButtons: NodeListOf<Element> | null = null;
-
+  currentPage = 'home';
   constructor() {}
 
   ngOnInit(): void {
@@ -18,19 +18,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.navButtons = document.querySelectorAll('.nav-button');
   }
 
   pageSwitch(page: string) {
-
-    if (this.navButtons) {
-      this.navButtons.forEach((button) => {
-        button.classList.remove('active');
-      });
-    }
-
-    const selectedButton = document.getElementById(page);
-    selectedButton?.classList.add('active');
+    this.currentPage = page;
     this.selectedPage.emit(page);
   }
 }
