@@ -3,20 +3,20 @@ import { Injectable } from '@angular/core';
 import { Cart } from '../models/cart';
 import { Product } from '../models/product';
 import { ProductService } from './product.service';
-import { ProductData } from '../data/productdata';
 import { UserService } from './user.service';
+import { CartData } from '../data/cartData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private carts: Cart[] = [];
+  private carts: Cart[] = CartData;
   private productService: ProductService = new ProductService();
   constructor(private userService: UserService) {
-    // Initialize carts for all users
-    this.userService.getUsers().forEach(user => {
-      this.carts.push({ userID: user.id, items: [] });
-    });
+  }
+
+  getProductById(id: string): Product | undefined {
+    return this.productService.getProductById(id);
   }
 
   getCart(userID: string): Cart | undefined {

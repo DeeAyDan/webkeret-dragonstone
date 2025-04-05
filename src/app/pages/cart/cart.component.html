@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of cart.items">
+        <tr *ngFor="let item of displayItems">
           <td>{{ item.product.name }}</td>
           <td>{{ item.quantity }}</td>
           <td>${{ item.product.price }}</td>
