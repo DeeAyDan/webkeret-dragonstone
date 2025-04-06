@@ -31,7 +31,7 @@ export class ShopComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    this.cartService.addToCart('guest', product, 1);
+    this.cartService.addToCart(product);
     alert(`${product.name} has been added to your cart!`);
   }
 

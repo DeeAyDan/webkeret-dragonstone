@@ -23,26 +23,41 @@ export class CartService {
     return this.carts.find(cart => cart.userID === userID);
   }
 
-  addToCart(userID: string = 'guest', product: Product, quantity: number = 1): void {
+  addToCart(product: Product,userID: string = 'guest'): void {
     let cart = this.getCart(userID);
     let productID = product.id;
     if (!cart) return;
 
     let item = cart.items.find(i => i.productID === product.id);
     if (item) {
-      item.quantity += quantity;
+      item.quantity += 1;
     } else {
-      cart.items.push({ productID, quantity });
+      cart.items.push({ productID, quantity: 1 });
     }
 
     cart.total = this.calculateTotal(cart);
   }
 
-  removeFromCart(userID: string, productID: string): void {
+  removeFromCart(product: Product, userID: string = 'guest'): void {
     let cart = this.getCart(userID);
     if (!cart) return;
 
-    cart.items = cart.items.filter(item => item.productID !== productID);
+    cart.items = cart.items.filter(item => item.productID !== product.id);
+    cart.total = this.calculateTotal(cart);
+  }
+
+  decreaseQuantity(product: Product, userID: string = 'guest'): void {
+    let cart = this.getCart(userID);
+    if (!cart) return;
+
+    let item = cart.items.find(i => i.productID === product.id);
+    if (item) {
+      item.quantity -= 1;
+      if (item.quantity <= 0) {
+        this.removeFromCart(product);
+      }
+    }
+
     cart.total = this.calculateTotal(cart);
   }
 
@@ -55,9 +70,12 @@ export class CartService {
   }
 
   calculateTotal(cart: Cart): number {
-    return cart.items.reduce((sum, item) => {
-      const price = this.productService.getPriceById(item.productID);
+    return parseFloat(cart.items.reduce((sum, item) => {
+      const product = this.productService.getProductById(item.productID);
+      if (!product) return sum;
+
+      const price = product.onSale ? product.discountedPrice : product.price;
       return sum + (price ?? 0) * item.quantity;
-    }, 0);
+    }, 0).toFixed(2));
   }
 }

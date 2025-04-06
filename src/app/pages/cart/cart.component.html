@@ -1,29 +1,32 @@
+<tr *ngFor="let item of displayItems">
+  <td>{{ item.product.name }}</td>
+  <td>
+    <button (click)="decreaseQuantity(item.product)">-</button>
+    {{ item.quantity }}
+    <button (click)="increaseQuantity(item.product)">+</button>
+  </td>
+  <td *ngIf="item.product.onSale" class="on-sale">
+    <p [ngStyle]="{ 'text-decoration': 'line-through' }">${{ item.product.price }}</p>
+    <p>${{ item.product.discountedPrice }}</p>
+  </td>
+  <td *ngIf="item.product.onSale" class="on-sale">
+    <p>${{ ((item.product.discountedPrice ?? 0) * item.quantity).toFixed(2) }}</p>
+  </td>
+  <td *ngIf="!item.product.onSale">
+    <p>${{ item.product.price.toFixed(2) }}</p>
+  </td>
+  <td *ngIf="!item.product.onSale">
+    <p>${{ (item.product.price * item.quantity).toFixed(2) }}</p>
 
-<div *ngIf="cart; else emptyCart">
-    <h2>Your Cart</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of displayItems">
-          <td><img class="cart-image" src="{{item.product.images[0]}}" alt="{{item.product.name}}"></td>
-          <td>{{ item.product.name }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>${{ item.product.price }}</td>
-          <td>${{ item.product.price * item.quantity }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <h3>Total: ${{ getTotalPrice() }}</h3>
-  </div>
-  
-  <ng-template #emptyCart>
-    <p>Your cart is empty.</p>
-  </ng-template>
-  
+  <td>
+    <button (click)="removeFromCart(item.product)">Remove</button>
+  </td>
+</tr>
+
+<tr *ngIf="displayItems.length === 0">
+  <td colspan="5">Your cart is empty.</td>
+</tr>
+<tr *ngIf="displayItems.length > 0">
+  <td colspan="4" class="total">Total:</td>
+  <td>${{ cart?.total }}</td>
+</tr>
