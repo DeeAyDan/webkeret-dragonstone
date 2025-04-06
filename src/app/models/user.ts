@@ -1,7 +1,7 @@
 import { Cart } from "./cart";
 
 export interface User {
-    id: string;
+    id: string; // It's the username
     name: string;
     email: string;
     password: string;

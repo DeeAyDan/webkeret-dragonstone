@@ -12,4 +12,5 @@ export interface Product {
     averageRating?: number;
     onSale?: boolean;
     discount?: number;
+    discountedPrice?: number;
 }

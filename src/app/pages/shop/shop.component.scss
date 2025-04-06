@@ -4,8 +4,8 @@
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
   padding: 20px;
 }
 
@@ -18,30 +18,6 @@
   text-align: center;
 }
 
-.product-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
-
-.rating{
-  display: inline;
-}
-
-.price-container{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.price-container div{
-  display: flex;
-  gap: 10px;
-}
-
-.price {
-  font-weight: bold;
-}
 
 button {
   background-color: #333;

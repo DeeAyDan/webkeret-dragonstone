@@ -27,7 +27,7 @@ export class CartComponent implements OnInit {
 
 
   ngOnInit() {
-    this.cart = this.cartService.getCart('1');
+    this.cart = this.cartService.getCart('guest');
     this.displayItems = this.cart?.items.map(item => {
       const product = this.cartService.getProductById(item.productID);
       return {

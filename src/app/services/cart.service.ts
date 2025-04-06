@@ -23,7 +23,7 @@ export class CartService {
     return this.carts.find(cart => cart.userID === userID);
   }
 
-  addToCart(userID: string, product: Product, quantity: number = 1): void {
+  addToCart(userID: string = 'guest', product: Product, quantity: number = 1): void {
     let cart = this.getCart(userID);
     let productID = product.id;
     if (!cart) return;

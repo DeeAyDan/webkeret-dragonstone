@@ -2,7 +2,7 @@ import { User } from "../models/user";
 
 export const userData: User[] = [
 {
-      id: '1',
+      id: 'deeaydan',
       name: 'Daniel',
       email: 'daniel@example.com',
       password: 'password123',
@@ -10,7 +10,7 @@ export const userData: User[] = [
       phone: '+36 20 123 4567'
     },
     {
-      id: '1',
+      id: 'lobatomyanthony',
       name: 'Alice',
       email: 'alice@example.com',
       password: 'securepass',
@@ -18,7 +18,7 @@ export const userData: User[] = [
       phone: '+36 30 987 6543'
     },
     {
-      id: '3',
+      id: 'bobsmith',
       name: 'Bob',
       email: 'bob@example.com',
       password: 'letmein',

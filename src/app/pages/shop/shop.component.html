@@ -1,20 +1,46 @@
 <div class="shop-container">
   <div class="product-grid">
-    <div *ngFor="let product of products" class="product-card">
-      <img [src]="product.images[0]" [alt]="product.name" />
-      <h3>{{ product.name }}</h3>
-      <div class="price-container">
-        <div><p  [ngStyle]="{ 
-          'color': product.onSale ? 'red' : 'inherit',
-          'text-decoration': product.onSale ? 'line-through' : 'normal',
-          'font-size': product.onSale ? '0.8em' : '1em',
-          'display': product.onSale ? 'inline' : 'block',
-        }" class="price">${{product.price}}</p>
-              <p *ngIf="product.onSale" class="sale-price">
-                ${{getDiscountedPrice(product.price, product.discount ?? 1) }}</p></div>
-                <p [ngStyle]="{'color': (product.averageRating ?? 0) <= 1 ? 'red' : 'inherit'}" class="rating"> {{ product.averageRating ?? 'N/A' }}/5</p>
-      </div>
-      <button>Add to Cart</button>
+    <app-product-card
+      *ngFor="let product of products"
+      [product]="product"
+      (productClick)="showProductDetails($event)"
+    ></app-product-card>
+  </div>
+  <!-- Optional product detail display -->
+  <div *ngIf="selectedProduct">
+    <h2>{{ selectedProduct.name }}</h2>
+    <p>{{ selectedProduct.description }}</p>
+    <div>
+      <p
+        [ngStyle]="{ 
+    'color': selectedProduct.onSale ? 'red' : 'inherit',
+    'text-decoration': selectedProduct.onSale ? 'line-through' : 'normal',
+    'font-size': selectedProduct.onSale ? '0.8em' : '1em',
+    'display': selectedProduct.onSale ? 'inline' : 'block',
+  }"
+        class="price"
+      >
+        ${{ selectedProduct.price }}
+      </p>
+      <p *ngIf="selectedProduct.onSale" class="sale-price">
+        ${{ selectedProduct.discountedPrice }}
+      </p>
     </div>
+    <button (click)="addToCart(selectedProduct)">Add to Cart</button>
+    <p class="rating">
+      {{
+        selectedProduct.averageRating
+          ? selectedProduct.averageRating + " / 5"
+          : "No Reviews"
+      }}
+    </p>
+    <!-- reviews -->
+    <div *ngIf="selectedProduct.reviews && selectedProduct.reviews.length > 0">
+      <h3>Reviews:</h3>
+      <ul>
+        <li *ngFor="let review of selectedProduct.reviews">
+          <strong>{{ review.userID }}:</strong> {{ review.comment }}:{{ review.rating }}
+        </li>
+      </ul>
   </div>
 </div>

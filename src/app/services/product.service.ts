@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { ReviewService } from './review.service';
 import { reviewData } from '../data/reviewData';
-import { ProductData } from '../data/productdata';
+import { ProductData } from '../data/productData';
 import { Review } from '../models/review';
 
 @Injectable({
@@ -16,6 +16,9 @@ export class ProductService {
   constructor() {
     // Initialize products with reviews
     this.products = this.products.map(product => {
+      if (product.onSale){
+        product.discountedPrice = this.getDiscountedPrice(product.price, product.discount!);
+      }
       const productReviews = this.reviews.filter(review => review.productID === product.id);
       return { ...product, reviews: productReviews };
     });
@@ -42,4 +45,8 @@ export class ProductService {
      }
     return undefined;
   }
-}
+
+  getDiscountedPrice(price: number, discount: number): number {
+      return Math.round(price * (1 - discount) * 100) / 100;
+    }
+  }

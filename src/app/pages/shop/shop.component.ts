@@ -2,17 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../../services/cart.service';
+import { ProductCardComponent } from '../product-card/product-card.component';
 
 @Component({
   selector: 'app-shop',
-  imports: [CommonModule],
+  imports: [CommonModule, ProductCardComponent],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
 })
 export class ShopComponent implements OnInit {
   products: Product[] = [];
+  selectedProduct?: Product;
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService, private cartService: CartService) {
+    this.products = this.productService.getProducts();
+  }
 
   ngOnInit() {
     this.products = this.productService.getProducts();
@@ -21,8 +26,13 @@ export class ShopComponent implements OnInit {
     });
   }
 
-  getDiscountedPrice(price: number, discount: number): number {
-    return Math.round(price * (1 - discount) * 100) / 100;
+  showProductDetails(product: Product) {
+    this.selectedProduct = product;
+  }
+
+  addToCart(product: Product) {
+    this.cartService.addToCart('guest', product, 1);
+    alert(`${product.name} has been added to your cart!`);
   }
 
 }
