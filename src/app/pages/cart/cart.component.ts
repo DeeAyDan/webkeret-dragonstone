@@ -7,10 +7,12 @@ import { Product } from '../../models/product';
 import { FormatPricePipe } from '../../shared/pipes/format-price.pipe';
 import { ConfirmRemoveDialogComponent } from '../confirm-remove-dialog/confirm-remove-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule, FormatPricePipe],
+  imports: [CommonModule, FormatPricePipe, MatButtonModule, MatIconModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })

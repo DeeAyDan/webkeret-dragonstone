@@ -1,9 +1,9 @@
 <tr *ngFor="let item of displayItems">
   <td>{{ item.product.name }}</td>
   <td>
-    <button (click)="decreaseQuantity(item.product)">-</button>
+    <button mat-flat-button (click)="decreaseQuantity(item.product)">-</button>
     {{ item.quantity }}
-    <button (click)="increaseQuantity(item.product)">+</button>
+    <button mat-flat-button (click)="increaseQuantity(item.product)">+</button>
   </td>
   <td *ngIf="item.product.onSale" class="on-sale">
     <p [ngStyle]="{ 'text-decoration': 'line-through' }">{{ item.product.price | formatPrice }}</p>
@@ -19,7 +19,7 @@
     <p>{{ item.product.price * item.quantity | formatPrice }}</p>
 
   <td>
-    <button (click)="removeFromCart(item.product)">Remove</button>
+    <button mat-fab extended="true" (click)="removeFromCart(item.product)"><mat-icon>delete</mat-icon> Remove</button>
   </td>
 </tr>
 
