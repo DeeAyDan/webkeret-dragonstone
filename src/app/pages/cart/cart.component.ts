@@ -5,6 +5,8 @@ import { Cart } from '../../models/cart';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
 import { FormatPricePipe } from '../../shared/pipes/format-price.pipe';
+import { ConfirmRemoveDialogComponent } from '../confirm-remove-dialog/confirm-remove-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +22,7 @@ export class CartComponent implements OnInit {
     quantity: number
   }[] = [];
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private dialog: MatDialog) {
     
   }
 
@@ -40,8 +42,13 @@ export class CartComponent implements OnInit {
   }
   
   removeFromCart(product: Product) {
-    this.cartService.removeFromCart(product);
-    this.loadCart();
+    const dialogRef = this.dialog.open(ConfirmRemoveDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cartService.removeFromCart(product);
+        this.loadCart();
+      }
+    });
   }
 
   loadCart() {
