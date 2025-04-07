@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
+import { FormatPricePipe } from '../../shared/pipes/format-price.pipe';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormatPricePipe],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })

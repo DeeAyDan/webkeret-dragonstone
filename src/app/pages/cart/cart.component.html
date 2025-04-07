@@ -6,17 +6,17 @@
     <button (click)="increaseQuantity(item.product)">+</button>
   </td>
   <td *ngIf="item.product.onSale" class="on-sale">
-    <p [ngStyle]="{ 'text-decoration': 'line-through' }">${{ item.product.price }}</p>
-    <p>${{ item.product.discountedPrice }}</p>
+    <p [ngStyle]="{ 'text-decoration': 'line-through' }">{{ item.product.price | formatPrice }}</p>
+    <p>{{ item.product.discountedPrice | formatPrice }}</p>
   </td>
   <td *ngIf="item.product.onSale" class="on-sale">
-    <p>${{ ((item.product.discountedPrice ?? 0) * item.quantity).toFixed(2) }}</p>
+    <p>{{ (item.product.discountedPrice ?? 0) * item.quantity | formatPrice }}</p>
   </td>
   <td *ngIf="!item.product.onSale">
-    <p>${{ item.product.price.toFixed(2) }}</p>
+    <p>{{ item.product.price | formatPrice }}</p>
   </td>
   <td *ngIf="!item.product.onSale">
-    <p>${{ (item.product.price * item.quantity).toFixed(2) }}</p>
+    <p>{{ item.product.price * item.quantity | formatPrice }}</p>
 
   <td>
     <button (click)="removeFromCart(item.product)">Remove</button>
@@ -28,5 +28,5 @@
 </tr>
 <tr *ngIf="displayItems.length > 0">
   <td colspan="4" class="total">Total:</td>
-  <td>${{ cart?.total }}</td>
+  <td>{{ cart?.total | formatPrice }}</td>
 </tr>

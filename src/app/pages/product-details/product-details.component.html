@@ -1,7 +1,7 @@
 <div *ngIf="product; else notFound">
     <h2>{{ product?.name }}</h2>
     <p>{{ product?.description }}</p>
-    <p><strong>Price:</strong> \${{ product?.price }}</p>
+    <p><strong>Price:</strong>{{ product?.price | formatPrice }}</p>
   </div>
   
   <ng-template #notFound>

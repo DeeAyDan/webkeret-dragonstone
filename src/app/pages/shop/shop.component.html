@@ -20,10 +20,10 @@
   }"
         class="price"
       >
-        ${{ selectedProduct.price }}
+        {{ selectedProduct.price | formatPrice }}
       </p>
       <p *ngIf="selectedProduct.onSale" class="sale-price">
-        ${{ selectedProduct.discountedPrice }}
+        {{ selectedProduct.discountedPrice | formatPrice }}
       </p>
     </div>
     <button (click)="addToCart(selectedProduct)">Add to Cart</button>

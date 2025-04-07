@@ -4,10 +4,11 @@ import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
+import { FormatPricePipe } from '../../shared/pipes/format-price.pipe';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule],
+  imports: [CommonModule, FormatPricePipe],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
@@ -52,6 +53,10 @@ export class CartComponent implements OnInit {
         quantity: item.quantity
       };
     }) || [];
+
+    if (this.cart) {
+    this.cart.total = this.cartService.calculateTotal(this.cart);
+  }
   }
 
   checkout() {
