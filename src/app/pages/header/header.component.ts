@@ -10,11 +10,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @Output() selectedPage: EventEmitter<string> = new EventEmitter();
-  isSidebarOpen = false;
   currentPage = 'home';
 
   ngOnInit(): void {
-
+    
   }
 
   ngAfterViewInit(): void {

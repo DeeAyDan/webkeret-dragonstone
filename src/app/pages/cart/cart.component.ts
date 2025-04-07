@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart';
 import { CommonModule } from '@angular/common';
-import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 
 @Component({
