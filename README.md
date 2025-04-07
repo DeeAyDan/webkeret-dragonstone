@@ -20,9 +20,9 @@ Segítség az értékeléshez:
 - [ ] 10 Material:
 - [X] mat-raised-button - cart.component.html
 - [X] mat-dialog - confirm-remove-dialog.component.html
-- [ ] 
-- [ ] 
-- [ ] 
+- [X] mat-flat-button - cart.component.html
+- [X] mat-fab cart.component.html
+- [X] mat-icon cart.component.html
 - [ ] 
 - [ ] 
 - [ ] 
