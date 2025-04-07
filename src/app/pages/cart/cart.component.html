@@ -30,3 +30,6 @@
   <td colspan="4" class="total">Total:</td>
   <td>{{ cart?.total | formatPrice }}</td>
 </tr>
+<tr *ngIf="displayItems.length > 0">
+    <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
+</tr>

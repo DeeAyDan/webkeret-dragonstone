@@ -24,4 +24,22 @@ table {
     font-weight: bold;
     color: gray;
   }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  button.mat-raised-button {
+    background-color: #6200ea;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  button.mat-raised-button:hover {
+    background-color: #3700b3;
+  }
+
   
