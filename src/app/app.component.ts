@@ -11,8 +11,7 @@ import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, ShopComponent, CartComponent, HeaderComponent,
-            LoginComponent, RegisterComponent, PageNotFoundComponent, NgIf],
+  imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

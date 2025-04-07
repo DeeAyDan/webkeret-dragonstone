@@ -2,23 +2,23 @@
     <div class="title">Dragonstone</div>
 </div>
 <div class="navbar">
-<button (click)="pageSwitch('home')" 
+<button routerLink="/home" (click)="pageSwitch('home')" 
         class="nav-button" 
         [ngClass]="{ 'active': currentPage === 'home' }">Home</button>
 
-<button (click)="pageSwitch('shop')" 
+<button routerLink="/shop" (click)="pageSwitch('shop')" 
         class="nav-button" 
         [ngClass]="{ 'active': currentPage === 'shop' }">Store</button>
 
-<button (click)="pageSwitch('cart')" 
+<button routerLink="/cart" (click)="pageSwitch('cart')" 
         class="nav-button" 
         [ngClass]="{ 'active': currentPage === 'cart' }">Cart</button>
 
-<button (click)="pageSwitch('login')" 
+<button routerLink="/login" (click)="pageSwitch('login')" 
         class="nav-button" 
         [ngClass]="{ 'active': currentPage === 'login' }">Login</button>
 
-<button (click)="pageSwitch('register')" 
+<button routerLink="/register" (click)="pageSwitch('register')" 
         class="nav-button" 
         [ngClass]="{ 'active': currentPage === 'register' }">Register</button>
 

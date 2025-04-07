@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [NgClass],
+  imports: [NgClass, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -11,17 +12,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Output() selectedPage: EventEmitter<string> = new EventEmitter();
   isSidebarOpen = false;
   currentPage = 'home';
-  constructor() {}
 
   ngOnInit(): void {
-    // Initialization logic can go here
+
   }
 
   ngAfterViewInit(): void {
   }
 
+  constructor() {}
+
   pageSwitch(page: string) {
     this.currentPage = page;
-    this.selectedPage.emit(page);
   }
 }
