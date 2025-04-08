@@ -20,12 +20,12 @@ Segítség az értékeléshez:
 - [ ] 10 Material:
 - [X] mat-raised-button - cart.component.html
 - [X] mat-dialog - confirm-remove-dialog.component.html
-- [X] mat-flat-button - cart.component.html
-- [X] mat-fab cart.component.html
+- [X] mat-form - login.component.html
+- [X] mat-label - login.component.html
 - [X] mat-icon cart.component.html
 - [X] mat-card home.component.html
-- [X] mat-stroked-button home.component.html
-- [ ] 
+- [X] mat-input login.component.html
+- [X] mat-hint login.component.html
 - [ ] 
 - [ ] 
 - [ ] Adatbevitel formokkal: register, review írás
