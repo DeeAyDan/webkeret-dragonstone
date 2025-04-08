@@ -1,5 +1,5 @@
 <div  class="product-card" (click)="onClick()">
-      <img [src]="product.images[0]" [alt]="product.name" />
+      <img loading="lazy" [src]="product.images[0]" [alt]="product.name" />
       <div class="product-name">{{ product.name }}</div>
       <div class="price-container">
         <div><p  [ngStyle]="{ 
