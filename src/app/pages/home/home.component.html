@@ -1,1 +1,29 @@
-<p>home works!</p>
+<div class="home-container">
+    <div class="left">
+<h1>Welcome to Dragonstone</h1>
+  
+  <p>Explore our amazing collection of products, handpicked just for you!</p>
+  
+  <div class="buttons">
+    <button mat-raised-button color="primary" (click)="goToShop()">Go to Shop</button>
+    <button mat-raised-button color="accent" (click)="goToRegister()">Register</button>
+  </div>
+    </div>
+ <div class="right">
+   <div class="product-cards" *ngIf="randomProducts.length === 3">
+        <mat-card [ngStyle]="{ transform: 'rotate(-30deg)' }" class="product-card rotated-card" (click)="goToProductDetail(randomProducts[0])">
+          <img mat-card-image [src]="randomProducts[0].images[0]" alt="{{ randomProducts[0].name }}" />
+        </mat-card>
+  
+        <mat-card [ngStyle]="{ transform: 'rotate(0deg)' }" class="product-card middle-card" (click)="goToProductDetail(randomProducts[1])">
+          <img mat-card-image [src]="randomProducts[1].images[0]" alt="{{ randomProducts[1].name }}" />
+        </mat-card>
+  
+        <mat-card [ngStyle]="{ transform: 'rotate(30deg)' }" class="product-card rotated-card" (click)="goToProductDetail(randomProducts[2])">
+          <img mat-card-image [src]="randomProducts[2].images[0]" alt="{{ randomProducts[2].name }}" />
+        </mat-card>
+  </div> 
+ </div> 
+  
+  
+</div>
