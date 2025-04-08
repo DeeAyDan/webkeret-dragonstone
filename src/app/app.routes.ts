@@ -5,11 +5,13 @@ import { HomeComponent } from './pages/home/home.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 
 export const routes: Routes = [
     {path : 'home', component: HomeComponent},
+    {path : 'profile', component: ProfileComponent},
     {path : 'shop', component: ShopComponent},
     {path : 'cart', component: CartComponent},
     {path : 'login', component: LoginComponent},

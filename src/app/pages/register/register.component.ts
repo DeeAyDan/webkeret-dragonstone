@@ -28,16 +28,7 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    const { password, confirmPassword } = this.registerForm.value;
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
-    if (this.registerForm.valid) {
-      console.log('Registration data:', this.registerForm.value);
-      // send to backend here
-    }
+    alert('Soon, második mérföldkő!'); 
   }
 
 }

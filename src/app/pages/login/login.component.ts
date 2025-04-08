@@ -24,11 +24,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Form Submitted!', this.loginForm.value);
-    } else {
-      console.log('Form is invalid');
-    }
+    alert('Soon, második mérföldkő!');
+    
   }
 
 }
