@@ -9,15 +9,18 @@ import { ConfirmRemoveDialogComponent } from '../confirm-remove-dialog/confirm-r
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule, FormatPricePipe, MatButtonModule, MatIconModule],
+  imports: [CommonModule, FormatPricePipe, MatButtonModule, MatIconModule, MatTableModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
 export class CartComponent implements OnInit {
   cart: Cart | undefined;
+  displayedColumns: string[] = ['image', 'name', 'quantity', 'price', 'subtotal'];
+
 
   displayItems: {
     product: Product,
