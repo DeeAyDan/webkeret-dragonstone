@@ -32,7 +32,21 @@ $text-color: #bcbcbc;
   position: sticky;
   top: 0;
   z-index: 1000;
+
+  @media(max-width: 768px){
+    display:none;
+  }
 }
+
+.mobile-menu-button {
+  display: none;
+  margin-left: auto;
+
+  @media (max-width: 768px) {
+    display: inline-flex;
+  }
+}
+
 button {
   position: relative;
   background: none;

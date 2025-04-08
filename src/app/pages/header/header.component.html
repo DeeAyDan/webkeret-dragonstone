@@ -1,25 +1,41 @@
 <div class="header">
-    <div class="title">Dragonstone</div>
-</div>
-<div class="navbar">
-<button routerLink="/home" (click)="pageSwitch('home')" 
-        class="nav-button" 
-        [ngClass]="{ 'active': currentPage === 'home' }">Home</button>
-
-<button routerLink="/shop" (click)="pageSwitch('shop')" 
-        class="nav-button" 
-        [ngClass]="{ 'active': currentPage === 'shop' }">Store</button>
-
-<button routerLink="/cart" (click)="pageSwitch('cart')" 
-        class="nav-button" 
-        [ngClass]="{ 'active': currentPage === 'cart' }">Cart</button>
-
-<button routerLink="/login" (click)="pageSwitch('login')" 
-        class="nav-button" 
-        [ngClass]="{ 'active': currentPage === 'login' }">Login</button>
-
-<button routerLink="/register" (click)="pageSwitch('register')" 
-        class="nav-button" 
-        [ngClass]="{ 'active': currentPage === 'register' }">Register</button>
-
-</div>
+        <div class="title">Dragonstone</div>
+      
+        <!-- Menu button (only visible on small screens) -->
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="mobile-menu-button">
+          <mat-icon>menu</mat-icon>
+        </button>
+      
+        <!-- Material Menu -->
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/home" (click)="pageSwitch('home')">Home</button>
+          <button mat-menu-item routerLink="/shop" (click)="pageSwitch('shop')">Store</button>
+          <button mat-menu-item routerLink="/cart" (click)="pageSwitch('cart')">Cart</button>
+          <button mat-menu-item routerLink="/login" (click)="pageSwitch('login')">Login</button>
+          <button mat-menu-item routerLink="/register" (click)="pageSwitch('register')">Register</button>
+        </mat-menu>
+      </div>
+      
+      <!-- Full navbar for larger screens -->
+      <div class="navbar">
+        <button routerLink="/home" (click)="pageSwitch('home')"
+                class="nav-button"
+                [ngClass]="{ 'active': currentPage === 'home' }">Home</button>
+      
+        <button routerLink="/shop" (click)="pageSwitch('shop')"
+                class="nav-button"
+                [ngClass]="{ 'active': currentPage === 'shop' }">Store</button>
+      
+        <button routerLink="/cart" (click)="pageSwitch('cart')"
+                class="nav-button"
+                [ngClass]="{ 'active': currentPage === 'cart' }">Cart</button>
+      
+        <button routerLink="/login" (click)="pageSwitch('login')"
+                class="nav-button"
+                [ngClass]="{ 'active': currentPage === 'login' }">Login</button>
+      
+        <button routerLink="/register" (click)="pageSwitch('register')"
+                class="nav-button"
+                [ngClass]="{ 'active': currentPage === 'register' }">Register</button>
+      </div>
+      

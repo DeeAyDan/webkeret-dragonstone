@@ -17,7 +17,7 @@ Segítség az értékeléshez:
 - [X] 2 Attribútum direktíva: ngClass - Header.component.html, ngStyle - product-card.component.html
 - [X] 2 Vezérlési folyamat: ngIf, nfFor - shop.component.html
 - [X] @Input @Output: product-card.component.ts
-- [ ] 10 Material:
+- [X] 10 Material:
 - [X] mat-raised-button - cart.component.html
 - [X] mat-dialog - confirm-remove-dialog.component.html
 - [X] mat-form - login.component.html
@@ -26,7 +26,7 @@ Segítség az értékeléshez:
 - [X] mat-card home.component.html
 - [X] mat-input login.component.html
 - [X] mat-hint login.component.html
-- [ ] 
-- [ ] 
-- [ ] Adatbevitel formokkal: register, review írás
+- [X] mat-table cart.component.html 
+- [X] mat-menu header.component.html 
+- [X] Adatbevitel formokkal: register, review írás
 - [X] Saját pipe
