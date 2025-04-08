@@ -9,6 +9,7 @@ import { Review } from '../../models/review';
 import { FormsModule } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -27,7 +28,7 @@ export class ProductDetailsComponent implements OnInit {
     date: new Date()
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private productService: ProductService) {}
+  constructor(private router: Router, private route: ActivatedRoute, private productService: ProductService, private cartService: CartService) {}
 
   ngOnInit() {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -36,8 +37,14 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  addToCart(product: Product) {
-    // Implement add to cart functionality here
+  addToCart() {
+    if (this.product) {
+      this.cartService.addToCart(this.product);
+      alert('Product added to cart!');
+      this.router.navigate(['/cart']);
+    } else {
+      alert('Product not found!');
+    }
   }
 
   submitReview() {

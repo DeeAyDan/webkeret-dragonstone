@@ -5,14 +5,9 @@ import { User } from "../models/user";
 export const CartData: Cart[] = [
     {
         userID: 'guest',
-        items: [{
-            productID: '101',
-            quantity: 2
-        },
-        {
-            productID: '102',
-            quantity: 1
-        }]
+        items: [
+            
+        ]
     },
     {
         userID: 'deeaydan',

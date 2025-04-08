@@ -18,6 +18,8 @@
     </div>
   </div>
 
+  <button mat-raised-button color="accent" (click)="addToCart()">Add to Cart</button>
+
   <div class="reviews-section">
     <h3>Reviews</h3>
     <div *ngIf="(product?.reviews ?? []).length > 0; else noReviews">
