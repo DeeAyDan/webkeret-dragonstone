@@ -23,8 +23,8 @@ Segítség az értékeléshez:
 - [X] mat-flat-button - cart.component.html
 - [X] mat-fab cart.component.html
 - [X] mat-icon cart.component.html
-- [ ] 
-- [ ] 
+- [X] mat-card home.component.html
+- [X] mat-stroked-button home.component.html
 - [ ] 
 - [ ] 
 - [ ] 
