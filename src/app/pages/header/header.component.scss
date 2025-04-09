@@ -6,9 +6,8 @@
 }
 
 $bg-color: #1a1a1d;
-$highlight-color: #6A1E55;
+$highlight-color: #6a1e55;
 $text-color: #bcbcbc;
-
 
 .header {
   background-color: $bg-color;
@@ -22,6 +21,7 @@ $text-color: #bcbcbc;
   padding-top: 0.4rem;
   padding-bottom: 1.5rem;
   cursor: pointer;
+  display: inline;
 }
 
 .navbar {
@@ -34,8 +34,8 @@ $text-color: #bcbcbc;
   top: 0;
   z-index: 1000;
 
-  @media(max-width: 768px){
-    display:none;
+  @media (max-width: 770px) {
+    display: none;
   }
 }
 
@@ -43,21 +43,28 @@ $text-color: #bcbcbc;
   display: none;
   margin-left: auto;
 
-  @media (max-width: 768px) {
-    display: inline-flex;
+  @media (max-width: 770px) {
+    display: inline-block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 1.5rem;
+    right: 1rem;
+    background-color: $bg-color;
+    border: none;
   }
 }
 
-button {
+.nav-button {
   position: relative;
   background: none;
   border: none;
-  width: 100%;
+  width: 70%;
   cursor: pointer;
   padding-bottom: 0.3rem;
 }
 
-button::before {
+.nav-button::before {
   content: "";
   position: absolute;
   bottom: 0;
@@ -68,17 +75,22 @@ button::before {
   transition: width 0.3s ease, left 0.3s ease;
 }
 
-button:hover::before {
-  width: 100%;
-  left: 0;
+.nav-button:hover::before {
+  width: 80%;
+  left: 10%;
 }
 
 .active::before {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 1%;
-  width: 98%;
+  left: 10%;
+  width: 80%;
   height: 0.3rem;
   background-color: $highlight-color;
+}
+
+.shop-button {
+  width: 100%;
+  margin-right: 40vw;
 }
