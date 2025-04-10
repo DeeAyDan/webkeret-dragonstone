@@ -1,17 +1,16 @@
 <div class="register-container">
-  <h2>Register</h2>
+  <div class="register-title">Register</div>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    
+
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Username</mat-label>
-      <input matInput formControlName="username" placeholder="Unique username" required />
-      <mat-hint>Used for login</mat-hint>
+      <input matInput formControlName="username" placeholder="Example" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" placeholder="you@example.com" required />
-      <mat-hint>Must be a valid email</mat-hint>
+      <mat-hint>Used for login</mat-hint>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
@@ -27,25 +26,27 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Full Name</mat-label>
-      <input matInput formControlName="name" placeholder="Optional full name" />
+      <mat-label>Full Name (optional)</mat-label>
+      <input matInput formControlName="name" placeholder="Bob Ross" />
       <mat-hint>Can be updated later</mat-hint>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Address</mat-label>
-      <input matInput formControlName="address" placeholder="Optional address" />
+      <mat-label>Address (optional)</mat-label>
+      <input matInput formControlName="address" placeholder="Area 51" />
       <mat-hint>Can be updated later</mat-hint>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Phone Number</mat-label>
-      <input matInput formControlName="phoneNumber" placeholder="Optional phone number" />
-      <mat-hint>Format: +36 30 123 4567</mat-hint>
+      <mat-label>Phone Number (optional)</mat-label>
+      <input matInput formControlName="phoneNumber" placeholder="+36 12 345 6789" />
+      <mat-hint>Can be updated later</mat-hint>
     </mat-form-field>
 
     <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="registerForm.invalid">
       Register
     </button>
+    <div class="login-container">Already have an account? <span routerLink="/login" class="login-span">Login</span>
+    </div>
   </form>
 </div>

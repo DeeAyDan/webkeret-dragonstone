@@ -8,9 +8,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   registerForm: FormGroup;
@@ -23,12 +28,11 @@ export class RegisterComponent {
       confirmPassword: ['', Validators.required],
       name: [''],
       address: [''],
-      phoneNumber: ['']
+      phoneNumber: [''],
     });
   }
 
   onSubmit() {
-    alert('Soon, második mérföldkő!'); 
+    alert('Soon, második mérföldkő!');
   }
-
 }
