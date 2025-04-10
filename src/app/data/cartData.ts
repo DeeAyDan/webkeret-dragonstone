@@ -6,23 +6,19 @@ export const CartData: Cart[] = [
     {
         userID: 'guest',
         items: [
-            
-        ]
-    },
-    {
-        userID: 'deeaydan',
-        items: [
-            
-        ]
-    },
-    {
-        userID: 'lobatomyanthony',
-        items: [
             {
                 productID: '103',
                 quantity: 1
             }
         ]
+    },
+    {
+        userID: 'deeaydan',
+        items: []
+    },
+    {
+        userID: 'lobatomyanthony',
+        items: []
     },
     {
         userID: 'bobsmith',
