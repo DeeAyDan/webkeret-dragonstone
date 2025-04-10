@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
-import { MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf, NgStyle } from '@angular/common';
@@ -11,7 +11,7 @@ import { NgIf, NgStyle } from '@angular/common';
   selector: 'app-home',
   imports: [MatGridListModule, MatCardModule, MatButtonModule, NgStyle, NgIf],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   randomProducts: Product[] = [];
@@ -27,12 +27,12 @@ export class HomeComponent implements OnInit {
   getRandomProducts(): Product[] {
     const allProducts = [...this.productService.getProducts()];
     const selected: Product[] = [];
-  
+
     while (selected.length < 3 && allProducts.length > 0) {
       const index = Math.floor(Math.random() * allProducts.length);
       selected.push(allProducts.splice(index, 1)[0]);
     }
-  
+
     return selected;
   }
 
