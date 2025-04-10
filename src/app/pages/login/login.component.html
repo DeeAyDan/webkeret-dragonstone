@@ -1,6 +1,7 @@
 <div class="login-container">
-  <h2>Login</h2>
+  <div class="login-title">Login</div>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" placeholder="you@example.com" type="email" required />
@@ -16,6 +17,7 @@
     <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loginForm.invalid">
       Login
     </button>
+    <div class="register-container">No account yet? <span routerLink="/register" class="register-span">Register</span>
+    </div>
   </form>
 </div>
-
