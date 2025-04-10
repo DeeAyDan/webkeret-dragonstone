@@ -9,7 +9,7 @@ import { NgIf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, NgStyle, NgIf],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule, NgIf],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
