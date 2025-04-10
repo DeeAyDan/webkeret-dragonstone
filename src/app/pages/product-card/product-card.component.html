@@ -1,15 +1,17 @@
-<div  class="product-card" (click)="onClick()">
-      <img loading="lazy" [src]="product.images[0]" [alt]="product.name" />
-      <div class="product-name">{{ product.name }}</div>
-      <div class="price-container">
-        <div><p  [ngStyle]="{ 
+<div class="product-card" (click)="onClick()">
+  <img loading="lazy" [src]="product.images[0]" [alt]="product.name" />
+  <div class="product-name">{{ product.name }}</div>
+  <div class="price-container">
+    <div>
+      <p [ngStyle]="{ 
           'color': product.onSale ? 'red' : 'inherit',
           'text-decoration': product.onSale ? 'line-through' : 'normal',
           'font-size': product.onSale ? '0.8em' : '1em',
           'display': product.onSale ? 'inline' : 'block',
         }" class="price">{{product.price | formatPrice}}</p>
-              <p *ngIf="product.onSale" class="sale-price">
-                {{product.discountedPrice | formatPrice}}</p></div>
-                <p class="rating"> {{ product.averageRating ? product.averageRating + ' / 5' : '' }}</p>
-      </div>
+      <p *ngIf="product.onSale" class="sale-price">
+        {{product.discountedPrice | formatPrice}}</p>
     </div>
+    <p class="rating"> {{ product.averageRating ? product.averageRating + ' / 5' : '' }}</p>
+  </div>
+</div>

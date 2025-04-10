@@ -8,7 +8,7 @@ import { FormatPricePipe } from '../../shared/pipes/format-price.pipe';
   selector: 'app-product-card',
   imports: [CommonModule, FormatPricePipe],
   templateUrl: './product-card.component.html',
-  styleUrl: './product-card.component.scss'
+  styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent {
   @Input() product!: Product;
@@ -16,9 +16,7 @@ export class ProductCardComponent {
 
   constructor(private router: Router) {}
 
-  onClick(){
+  onClick() {
     this.router.navigate(['/product', this.product.id]);
   }
-
-  
 }
