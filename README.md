@@ -13,7 +13,7 @@ Segítség az értékeléshez:
 - [X] Nincs Futtatási hiba.
 - [X] Adatmodellek: app/models, kollekciók: app/data.
 - [X] Alkalmazás komponensekre van bontva.
-- [ ] Mobil Reszponzív
+- [X] Mobil Reszponzív
 - [X] 2 Attribútum direktíva: ngClass - Header.component.html, ngStyle - product-card.component.html
 - [X] 2 Vezérlési folyamat: ngIf, nfFor - shop.component.html
 - [X] @Input @Output: product-card.component.ts
