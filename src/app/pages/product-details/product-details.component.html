@@ -12,16 +12,17 @@
           <mat-label>Rating (1–5)</mat-label>
           <input matInput type="number" min="1" max="5" required [(ngModel)]="newReview.rating" name="rating" />
         </mat-form-field>
-  
+
         <mat-form-field appearance="outline">
           <mat-label>Message</mat-label>
           <textarea matInput rows="3" [(ngModel)]="newReview.comment" name="message"></textarea>
         </mat-form-field>
-  
-        <button class="review-submit-button" mat-raised-button color="accent" type="submit" [disabled]="reviewForm.invalid">Submit Review</button>
+
+        <button class="review-submit-button" mat-raised-button color="accent" type="submit"
+          [disabled]="reviewForm.invalid">Submit Review</button>
       </form>
     </div>
-    
+
     <div class="reviews-section">
       <h3>Reviews</h3>
       <div *ngIf="(product?.reviews ?? []).length > 0; else noReviews">
@@ -30,7 +31,9 @@
           <mat-card-content>{{ review.comment }}</mat-card-content>
         </mat-card>
       </div>
-      <ng-template #noReviews><p>No reviews yet.</p></ng-template>
+      <ng-template #noReviews>
+        <p>No reviews yet.</p>
+      </ng-template>
     </div>
   </div>
 
@@ -38,8 +41,10 @@
     <div class="product-info">
       <h2>{{ product?.name }}</h2>
       <p *ngIf="product?.onSale">
-        <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice }} </span>
-        <span class="sale-price">{{ ((product?.price || 0) - ((product?.price || 0) * (product?.discount || 0))) | formatPrice }}</span>
+        <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice
+          }} </span>
+        <span class="sale-price">{{ ((product?.price || 0) - ((product?.price || 0) * (product?.discount || 0))) |
+          formatPrice }}</span>
       </p>
       <p *ngIf="!product?.onSale">{{ product?.price | formatPrice }}</p>
       <p class="stock-info">Stock: {{ product?.stock }}</p>

@@ -14,9 +14,16 @@ import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, FormatPricePipe, MatCardModule, FormsModule, MatFormField, MatInputModule],
+  imports: [
+    CommonModule,
+    FormatPricePipe,
+    MatCardModule,
+    FormsModule,
+    MatFormField,
+    MatInputModule,
+  ],
   templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.scss'
+  styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent implements OnInit {
   product: Product | undefined;
@@ -25,10 +32,15 @@ export class ProductDetailsComponent implements OnInit {
     comment: '',
     userID: 'Guest',
     productID: '',
-    date: new Date()
+    date: new Date(),
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private productService: ProductService, private cartService: CartService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -52,7 +64,13 @@ export class ProductDetailsComponent implements OnInit {
     if (this.product?.reviews) {
       this.product.reviews.push({ ...this.newReview });
     }
-    this.newReview = { rating: 5, comment: '', userID: '', productID: '', date: new Date() };
+    this.newReview = {
+      rating: 5,
+      comment: '',
+      userID: '',
+      productID: '',
+      date: new Date(),
+    };
   }
 
   goBack() {
