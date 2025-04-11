@@ -5,11 +5,11 @@ import { Product } from '../../models/product';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, NgIf],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

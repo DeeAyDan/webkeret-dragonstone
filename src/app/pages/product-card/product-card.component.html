@@ -9,8 +9,10 @@
           'font-size': product.onSale ? '0.8em' : '1em',
           'display': product.onSale ? 'inline' : 'block',
         }" class="price">{{product.price | formatPrice}}</p>
-      <p *ngIf="product.onSale" class="sale-price">
+      @if (product.onSale) {
+        <p class="sale-price">
         {{product.discountedPrice | formatPrice}}</p>
+      }
     </div>
     <p class="rating"> {{ product.averageRating ? product.averageRating + ' / 5' : '' }}</p>
   </div>

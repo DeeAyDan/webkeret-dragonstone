@@ -10,19 +10,19 @@
     </div>
   </div>
   <div class="right">
-    <div class="product-cards" *ngIf="randomProducts.length === 3">
-      <mat-card class="product-card rotated-card left-card" (click)="goToProductDetail(randomProducts[0])">
-        <img loading="lazy" mat-card-image [src]="randomProducts[0].images[0]" alt="{{ randomProducts[0].name }}" />
-      </mat-card>
-
-      <mat-card class="product-card middle-card" (click)="goToProductDetail(randomProducts[1])">
-        <img loading="lazy" mat-card-image [src]="randomProducts[1].images[0]" alt="{{ randomProducts[1].name }}" />
-      </mat-card>
-
-      <mat-card class="product-card rotated-card right-card" (click)="goToProductDetail(randomProducts[2])">
-        <img loading="lazy" mat-card-image [src]="randomProducts[2].images[0]" alt="{{ randomProducts[2].name }}" />
-      </mat-card>
-    </div>
+    @if (randomProducts.length === 3) {
+      <div class="product-cards">
+        <mat-card class="product-card rotated-card left-card" (click)="goToProductDetail(randomProducts[0])">
+          <img loading="lazy" mat-card-image [src]="randomProducts[0].images[0]" alt="{{ randomProducts[0].name }}" />
+        </mat-card>
+        <mat-card class="product-card middle-card" (click)="goToProductDetail(randomProducts[1])">
+          <img loading="lazy" mat-card-image [src]="randomProducts[1].images[0]" alt="{{ randomProducts[1].name }}" />
+        </mat-card>
+        <mat-card class="product-card rotated-card right-card" (click)="goToProductDetail(randomProducts[2])">
+          <img loading="lazy" mat-card-image [src]="randomProducts[2].images[0]" alt="{{ randomProducts[2].name }}" />
+        </mat-card>
+      </div>
+    }
   </div>
 
 

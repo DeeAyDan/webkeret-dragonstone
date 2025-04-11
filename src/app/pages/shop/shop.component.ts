@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
-import { CommonModule } from '@angular/common';
+
 import { CartService } from '../../services/cart.service';
 import { ProductCardComponent } from '../product-card/product-card.component';
 
 @Component({
   selector: 'app-shop',
-  imports: [CommonModule, ProductCardComponent],
+  imports: [ProductCardComponent],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss',
 })

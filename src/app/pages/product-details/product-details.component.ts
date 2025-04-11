@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
-import { CommonModule } from '@angular/common';
+
 import { FormatPricePipe } from '../../shared/pipes/format-price.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { Review } from '../../models/review';
@@ -15,13 +15,12 @@ import { CartService } from '../../services/cart.service';
   selector: 'app-product-details',
   standalone: true,
   imports: [
-    CommonModule,
     FormatPricePipe,
     MatCardModule,
     FormsModule,
     MatFormField,
-    MatInputModule,
-  ],
+    MatInputModule
+],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
 })

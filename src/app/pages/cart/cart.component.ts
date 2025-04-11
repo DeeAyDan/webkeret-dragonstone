@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart';
-import { CommonModule } from '@angular/common';
+
 import { Product } from '../../models/product';
 import { FormatPricePipe } from '../../shared/pipes/format-price.pipe';
 import { ConfirmRemoveDialogComponent } from '../confirm-remove-dialog/confirm-remove-dialog.component';
@@ -13,12 +13,11 @@ import { MatTableModule } from '@angular/material/table';
 @Component({
   selector: 'app-cart',
   imports: [
-    CommonModule,
     FormatPricePipe,
     MatButtonModule,
     MatIconModule,
-    MatTableModule,
-  ],
+    MatTableModule
+],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })

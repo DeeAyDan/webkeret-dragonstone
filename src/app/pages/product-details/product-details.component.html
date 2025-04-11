@@ -19,34 +19,41 @@
         </mat-form-field>
 
         <button class="review-submit-button" mat-raised-button color="accent" type="submit"
-          [disabled]="reviewForm.invalid">Submit Review</button>
+        [disabled]="reviewForm.invalid">Submit Review</button>
       </form>
     </div>
 
     <div class="reviews-section">
       <h3>Reviews</h3>
-      <div class="review-container-div" *ngIf="(product?.reviews ?? []).length > 0; else noReviews">
-        <mat-card *ngFor="let review of product?.reviews" class="review-card">
-          <mat-card-title>{{review.userID}}: {{ review.rating }}/5</mat-card-title>
-          <mat-card-content>{{ review.comment }}</mat-card-content>
-        </mat-card>
-      </div>
-      <ng-template #noReviews>
+      @if ((product?.reviews ?? []).length > 0) {
+        <div class="review-container-div">
+          @for (review of product?.reviews; track review) {
+            <mat-card class="review-card">
+              <mat-card-title>{{review.userID}}: {{ review.rating }}/5</mat-card-title>
+              <mat-card-content>{{ review.comment }}</mat-card-content>
+            </mat-card>
+          }
+        </div>
+      } @else {
         <p>No reviews yet.</p>
-      </ng-template>
+      }
     </div>
   </div>
 
   <div class="product-details-right">
     <div class="product-info">
       <h2>{{ product?.name }}</h2>
-      <p *ngIf="product?.onSale">
-        <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice
+      @if (product?.onSale) {
+        <p>
+          <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice
           }} </span>
-        <span class="sale-price">{{ ((product?.price || 0) - ((product?.price || 0) * (product?.discount || 0))) |
+          <span class="sale-price">{{ ((product?.price || 0) - ((product?.price || 0) * (product?.discount || 0))) |
           formatPrice }}</span>
-      </p>
-      <p *ngIf="!product?.onSale">{{ product?.price | formatPrice }}</p>
+        </p>
+      }
+      @if (!product?.onSale) {
+        <p>{{ product?.price | formatPrice }}</p>
+      }
       <p class="stock-info">Stock: {{ product?.stock }}</p>
       <p class="categories">
         <strong>Categories:</strong> {{ product?.categories?.join(', ') ?? 'No categories available' }}

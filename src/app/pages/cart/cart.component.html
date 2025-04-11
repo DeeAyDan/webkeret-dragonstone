@@ -7,74 +7,77 @@
       <td mat-cell *matCellDef="let item" class="image-column">
         <img [src]="item.product.images[0]" alt="{{ item.product.name }}" width="100" height="100"
           style="object-fit: cover;" />
-      </td>
-    </ng-container>
+        </td>
+      </ng-container>
 
-    <!-- Product Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Product </th>
-      <td mat-cell *matCellDef="let item"> {{ item.product.name }} </td>
-    </ng-container>
+      <!-- Product Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Product </th>
+        <td mat-cell *matCellDef="let item"> {{ item.product.name }} </td>
+      </ng-container>
 
-    <!-- Quantity Column -->
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef> Quantity </th>
-      <td mat-cell *matCellDef="let item" class="quantity-column">
-        <button mat-mini-button (click)="decreaseQuantity(item.product)">-</button>
-        {{ item.quantity }}
-        <button mat-mini-button (click)="increaseQuantity(item.product)">+</button>
-        <button mat-icon-button (click)="removeFromCart(item.product)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantity </th>
+        <td mat-cell *matCellDef="let item" class="quantity-column">
+          <button mat-mini-button (click)="decreaseQuantity(item.product)">-</button>
+          {{ item.quantity }}
+          <button mat-mini-button (click)="increaseQuantity(item.product)">+</button>
+          <button mat-icon-button (click)="removeFromCart(item.product)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <!-- Unit Price Column -->
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef> Price </th>
-      <td mat-cell *matCellDef="let item">
-        <ng-container *ngIf="item.product.onSale; else normalPrice">
-          <span style="text-decoration: line-through; color: red;">{{ item.product.price | formatPrice }}</span>
-          <br>
-          <span>{{ item.product.discountedPrice | formatPrice }}</span>
+      <!-- Unit Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let item">
+          @if (item.product.onSale) {
+            <span style="text-decoration: line-through; color: red;">{{ item.product.price | formatPrice }}</span>
+            <br>
+              <span>{{ item.product.discountedPrice | formatPrice }}</span>
+            } @else {
+              {{ item.product.price | formatPrice }}
+            }
+          </td>
         </ng-container>
-        <ng-template #normalPrice>
-          {{ item.product.price | formatPrice }}
-        </ng-template>
-      </td>
-    </ng-container>
 
-    <ng-container matColumnDef="subtotal">
-      <th mat-header-cell *matHeaderCellDef> Subtotal </th>
-      <td mat-cell *matCellDef="let item">
-        {{ (item.product.onSale ? item.product.discountedPrice : item.product.price) * item.quantity | formatPrice }}
-      </td>
-    </ng-container>
+        <ng-container matColumnDef="subtotal">
+          <th mat-header-cell *matHeaderCellDef> Subtotal </th>
+          <td mat-cell *matCellDef="let item">
+            {{ (item.product.onSale ? item.product.discountedPrice : item.product.price) * item.quantity | formatPrice }}
+          </td>
+        </ng-container>
 
-    <!-- Total Price Column -->
-    <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef> Total </th>
-      <td mat-cell *matCellDef="let item">
-        {{ (item.product.onSale ? item.product.discountedPrice : item.product.price) * item.quantity | formatPrice }}
-      </td>
-    </ng-container>
+        <!-- Total Price Column -->
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let item">
+            {{ (item.product.onSale ? item.product.discountedPrice : item.product.price) * item.quantity | formatPrice }}
+          </td>
+        </ng-container>
 
-    <!-- Table Headers and Rows -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Table Headers and Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-  </table>
+      </table>
 
-  <div class="cart-left">
-    <!-- Empty Cart Message -->
-    <div *ngIf="displayItems.length === 0" class="empty-cart">
-      Your cart is empty.
+      <div class="cart-left">
+        <!-- Empty Cart Message -->
+        @if (displayItems.length === 0) {
+          <div class="empty-cart">
+            Your cart is empty.
+          </div>
+        }
+
+        <!-- Total + Checkout -->
+        @if (displayItems.length > 0) {
+          <div class="cart-summary">
+            <p class="total">Total: {{ cart?.total | formatPrice }}</p>
+            <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
+          </div>
+        }
+      </div>
     </div>
-
-    <!-- Total + Checkout -->
-    <div *ngIf="displayItems.length > 0" class="cart-summary">
-      <p class="total">Total: {{ cart?.total | formatPrice }}</p>
-      <button mat-raised-button color="primary" (click)="checkout()">Checkout</button>
-    </div>
-  </div>
-</div>
