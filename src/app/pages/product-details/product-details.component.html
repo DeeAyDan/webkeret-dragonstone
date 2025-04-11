@@ -1,12 +1,44 @@
 <div class="product-detail-container">
-  <button mat-stroked-button color="primary" (click)="goBack()">← Back to Shop</button>
 
-  <div class="product-header">
+  <div class="product-details-left">
+    <button class="back-button" mat-stroked-button color="primary" (click)="goBack()">← Back to Shop</button>
+
     <img [src]="product?.images?.[0]" alt="{{ product?.name }}" class="product-image" />
+
+    <div class="add-review-section">
+      <h3>Leave a Review</h3>
+      <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+        <mat-form-field class="spinner" appearance="outline">
+          <mat-label>Rating (1–5)</mat-label>
+          <input matInput type="number" min="1" max="5" required [(ngModel)]="newReview.rating" name="rating" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Message</mat-label>
+          <textarea matInput rows="3" [(ngModel)]="newReview.comment" name="message"></textarea>
+        </mat-form-field>
+  
+        <button class="review-submit-button" mat-raised-button color="accent" type="submit" [disabled]="reviewForm.invalid">Submit Review</button>
+      </form>
+    </div>
+    
+    <div class="reviews-section">
+      <h3>Reviews</h3>
+      <div *ngIf="(product?.reviews ?? []).length > 0; else noReviews">
+        <mat-card *ngFor="let review of product?.reviews" class="review-card">
+          <mat-card-title>{{review.userID}}: {{ review.rating }}/5</mat-card-title>
+          <mat-card-content>{{ review.comment }}</mat-card-content>
+        </mat-card>
+      </div>
+      <ng-template #noReviews><p>No reviews yet.</p></ng-template>
+    </div>
+  </div>
+
+  <div class="product-details-right">
     <div class="product-info">
       <h2>{{ product?.name }}</h2>
       <p *ngIf="product?.onSale">
-        <span class="original-price">{{ product?.price | formatPrice }}</span>
+        <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice }} </span>
         <span class="sale-price">{{ ((product?.price || 0) - ((product?.price || 0) * (product?.discount || 0))) | formatPrice }}</span>
       </p>
       <p *ngIf="!product?.onSale">{{ product?.price | formatPrice }}</p>
@@ -16,37 +48,8 @@
       </p>
       <p class="description">{{ product?.description }}</p>
     </div>
+    <button class="add-to-cart-button" mat-raised-button color="accent" (click)="addToCart()">Add to Cart</button>
   </div>
 
-  <button mat-raised-button color="accent" (click)="addToCart()">Add to Cart</button>
 
-  <div class="reviews-section">
-    <h3>Reviews</h3>
-    <div *ngIf="(product?.reviews ?? []).length > 0; else noReviews">
-      <mat-card *ngFor="let review of product?.reviews" class="review-card">
-        <mat-card-title>Rating: {{ review.rating }}/5</mat-card-title>
-        <mat-card-content>{{ review.comment }}</mat-card-content>
-      </mat-card>
-    </div>
-    <ng-template #noReviews><p>No reviews yet.</p></ng-template>
-  </div>
-
-  <div class="add-review-section">
-    <h3>Leave a Review</h3>
-    <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
-      <mat-form-field appearance="outline">
-        <mat-label>Rating (1–5)</mat-label>
-        <input matInput type="number" min="1" max="5" required [(ngModel)]="newReview.rating" name="rating" />
-        <mat-hint>Required</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Message</mat-label>
-        <textarea matInput rows="3" required [(ngModel)]="newReview.comment" name="message"></textarea>
-        <mat-hint>Share your experience</mat-hint>
-      </mat-form-field>
-
-      <button mat-raised-button color="accent" type="submit" [disabled]="reviewForm.invalid">Submit Review</button>
-    </form>
-  </div>
 </div>

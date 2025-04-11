@@ -23,7 +23,7 @@ export class ProductDetailsComponent implements OnInit {
   newReview: Review = {
     rating: 5,
     comment: '',
-    userID: '',
+    userID: 'Guest',
     productID: '',
     date: new Date()
   };

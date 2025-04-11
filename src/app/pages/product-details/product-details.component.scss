@@ -1,0 +1,127 @@
+.product-detail-container{
+    display:flex;
+    max-width: 1000px;
+    margin:auto;
+
+    @media screen and (max-width: 1000px) {
+        max-width: 700px;
+    }
+    @media screen and (max-width: 700px) {
+        max-width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.product-details-left{
+    display:flex;
+    max-width: 600px;
+    flex-direction: column;
+    margin-right: 20px;
+
+    @media screen and (max-width: 1000px) {
+        max-width: 420px;
+    }
+    @media screen and (max-width: 700px) {
+        max-width: 90%;
+        margin-right: 0;
+    }
+}
+
+.back-button{
+    margin:20px 60% 20px 10px;
+    cursor: pointer;
+    border-radius: 15px;
+    background-color:#3B1C32;
+}
+
+.back-button:hover{
+    background-color:#6A1E55;
+    transform: translateY(-3px);
+    transition: all 0.1s ease-out;
+}
+
+.product-image{
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.add-review-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #525252;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.spinner{
+    width: 30%;
+}
+
+.review-submit-button{
+    margin:10px 70% 20px 0;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.reviews-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #525252;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.review-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #3B1C32;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.product-details-right{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: 400px;
+    margin-left: 20px;
+    margin-top: 72px;
+
+    @media screen and (max-width: 1000px) {
+        max-width: 300px;
+    }
+    @media screen and (max-width: 700px) {
+        max-width: 90%;
+        margin-left: 0;
+    }
+}
+
+.add-to-cart-button{
+    margin:10px 0 20px 0;
+    cursor: pointer;
+    border-radius: 15px;
+    background-color:#3B1C32;
+}
+.add-to-cart-button:hover{
+    background-color:#6A1E55;
+    transform: translateY(-3px);
+    transition: all 0.1s ease-out;
+}
