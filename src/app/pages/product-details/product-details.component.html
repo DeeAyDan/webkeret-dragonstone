@@ -25,7 +25,7 @@
 
     <div class="reviews-section">
       <h3>Reviews</h3>
-      <div *ngIf="(product?.reviews ?? []).length > 0; else noReviews">
+      <div class="review-container-div" *ngIf="(product?.reviews ?? []).length > 0; else noReviews">
         <mat-card *ngFor="let review of product?.reviews" class="review-card">
           <mat-card-title>{{review.userID}}: {{ review.rating }}/5</mat-card-title>
           <mat-card-content>{{ review.comment }}</mat-card-content>
