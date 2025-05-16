@@ -29,8 +29,10 @@
 
 .buttons {
   margin-bottom: 20px;
+  display: flex;
+  justify-items: center;
+  gap: 15px;
   @media screen and (max-width: 770px) {
-    display: flex;
     flex-direction: column;
     margin: 0;
     align-items: center;

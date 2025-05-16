@@ -1,12 +1,18 @@
 <div class="home-container">
   <div class="left">
-    <h1>Welcome to Dragonstone</h1>
-
-    <p>Explore our amazing collection of products, handpicked just for you!</p>
-
+    <h1>{{ welcomeMessage }}</h1>
+    <p>
+      @if (isLoggedIn) {
+        Explore our curated selection of products, personalized especially for you!
+      } @else {
+        Explore our amazing collection of products, handpicked just for you!
+      }
+    </p>
     <div class="buttons">
       <button mat-stroked-button color="primary" (click)="goToShop()">Go to Shop</button>
-      <button mat-stroked-button color="accent" (click)="goToRegister()">Register</button>
+      @if (!isLoggedIn) {
+        <button mat-stroked-button color="accent" (click)="goToRegister()">Register</button>
+      }
     </div>
   </div>
   <div class="right">
@@ -24,6 +30,4 @@
       </div>
     }
   </div>
-
-
 </div>
