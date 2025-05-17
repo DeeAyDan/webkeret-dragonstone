@@ -1,21 +1,73 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { userData } from '../data/userData';
+import { 
+  Firestore, 
+  collection, 
+  doc, 
+  getDoc, 
+  getDocs, 
+  query, 
+  where 
+} from '@angular/fire/firestore';
+import { Observable, from, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  constructor(private firestore: Firestore) {}
 
-  private users: User[] = userData;
+  async getAllUsers(): Promise<User[]> {
+    try {
+      const usersRef = collection(this.firestore, 'Users');
+      const querySnapshot = await getDocs(usersRef);
+      
+      const users: User[] = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...(doc.data() as Omit<User, 'id'>)
+      }));
+      
+      return users;
+    } catch (error) {
+      console.error('Error fetching all users:', error);
+      return [];
+    }
+  }
+  
 
-  constructor() {}
-
-  getUsers(): User[] {
-    return this.users;
+  // Get user by ID as a Promise
+  async getUserById(id: string): Promise<User | undefined> {
+    try {
+      const userRef = doc(collection(this.firestore, 'Users'), id);
+      const userSnap = await getDoc(userRef);
+      
+      if (userSnap.exists()) {
+        return userSnap.data() as User;
+      } else {
+        console.log(`User with ID ${id} not found`);
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error getting user by ID:', error);
+      return undefined;
+    }
   }
 
-  getUserById(id: string): User | undefined {
-    return this.users.find(user => user.id === id);
+  async getUserNameOrEmailById(id: string): Promise<string | undefined> {
+    try {
+      const userRef = doc(collection(this.firestore, 'Users'), id);
+      const userSnap = await getDoc(userRef);
+  
+      if (userSnap.exists()) {
+        const user = userSnap.data() as User;
+        return user.name && user.name.trim() !== '' ? user.name : user.email;
+      } else {
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error fetching user name or email:', error);
+      return undefined;
+    }
   }
-}
+  }

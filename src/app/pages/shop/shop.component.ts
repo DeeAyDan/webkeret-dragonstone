@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 
@@ -18,18 +18,21 @@ export class ShopComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService
-  ) {
-    this.products = this.productService.getProducts();
-  }
+  ) {}
 
   ngOnInit() {
-    this.products = this.productService.getProducts();
-    this.products.forEach((product) => {
-      product.averageRating = this.productService.getProductAverageRating(
-        product.id
-      );
+    this.productService.getProducts().subscribe((products) => {
+      this.products = products;
+  
+      // Fetch and attach average ratings for each product
+      this.products.forEach(product => {
+        this.productService.getProductAverageRating(product.id).subscribe(rating => {
+          product.averageRating = rating;
+        });
+      });
     });
   }
+  
 
   showProductDetails(product: Product) {
     this.selectedProduct = product;

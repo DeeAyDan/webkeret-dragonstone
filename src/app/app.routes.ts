@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard, publicGuard } from './shared/guards/auth/auth.guard';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { ShopComponent } from './pages/shop/shop.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -11,11 +12,11 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 
 export const routes: Routes = [
     {path : 'home', component: HomeComponent},
-    {path : 'profile', component: ProfileComponent},
+    {path : 'profile', component: ProfileComponent, canActivate: [authGuard]},
     {path : 'shop', component: ShopComponent},
-    {path : 'cart', component: CartComponent},
-    {path : 'login', component: LoginComponent},
-    {path : 'register', component: RegisterComponent},
+    {path : 'cart', component: CartComponent, canActivate: [authGuard]},
+    {path : 'login', component: LoginComponent, canActivate: [publicGuard]},
+    {path : 'register', component: RegisterComponent, canActivate: [publicGuard]},
     {path : 'product/:id', component: ProductDetailsComponent},
     {path : '', redirectTo: 'home', pathMatch: 'full'},
     {path : '**', component: PageNotFoundComponent}

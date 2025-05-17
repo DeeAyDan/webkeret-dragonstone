@@ -1,8 +1,7 @@
 import { Product } from "./product";
-import { User } from "./user";
 
 export interface Cart {
-    userID: User['id'];
+    userID: string;
     items: {productID: Product['id'], quantity: number}[];
-    total?: number;
+    total: number;
 }

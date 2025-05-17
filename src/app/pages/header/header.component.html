@@ -5,7 +5,7 @@
   <button mat-menu-item routerLink="/shop" (click)="pageSwitch('shop')">
     Store
   </button>
-  
+
   @if (isLoggedIn) {
   <button mat-menu-item routerLink="/cart" (click)="pageSwitch('cart')">
     Cart
@@ -39,6 +39,8 @@
   >
     Store
   </button>
+
+  @if (isLoggedIn) {
   <button
     routerLink="/cart"
     (click)="pageSwitch('cart')"
@@ -47,8 +49,6 @@
   >
     Cart
   </button>
-
-  @if (isLoggedIn) {
   <button
     routerLink="/profile"
     (click)="pageSwitch('profile')"

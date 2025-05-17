@@ -53,19 +53,18 @@ export class LoginComponent implements OnDestroy {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
       
-      // Using signIn method which returns a Promise
       this.authService.signIn(email, password)
         .then((userCredential) => {
           this.isLoading = false;
           this.authService.updateLoginStatus(true);
-          this.router.navigate(['/home']); // Navigate to your dashboard or home page
+          this.router.navigate(['/home']);
         })
         .catch((error) => {
           this.isLoading = false;
           this.loginError = this.getErrorMessage(error.code);
         });
     } else {
-      this.loginForm.markAllAsTouched(); // Show validation errors
+      this.loginForm.markAllAsTouched();
     }
   }
   

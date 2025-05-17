@@ -7,13 +7,13 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { NgStyle } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatGridListModule, MatCardModule, MatButtonModule, NgStyle],
+  imports: [MatGridListModule, MatCardModule, MatButtonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -29,11 +29,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService
   ) {}
-  
+
   ngOnInit() {
-    this.randomProducts = this.getRandomProducts();
-    
-    // Subscribe to auth state changes
+    this.getRandomProducts().subscribe(products => {
+      this.randomProducts = products;
+    });
+
+    console.log(this.productService.getProductById('101'))
+  
+    // Auth subscription
     this.userAuthSubscription = this.authService.isLoggedIn().subscribe(user => {
       this.currentUser = user;
       this.isLoggedIn = !!user;
@@ -50,21 +54,26 @@ export class HomeComponent implements OnInit, OnDestroy {
   
   updateWelcomeMessage() {
     if (this.isLoggedIn && this.currentUser?.email) {
-      this.welcomeMessage = `Welcome back to Dragonstone, ${this.currentUser.email}!`;
+      this.welcomeMessage = `Welcome back to Dragonstone, ${this.currentUser.uid}!`;
     } else {
       this.welcomeMessage = 'Welcome to Dragonstone';
     }
   }
   
-  getRandomProducts(): Product[] {
-    const allProducts = [...this.productService.getProducts()];
-    const selected: Product[] = [];
-    while (selected.length < 3 && allProducts.length > 0) {
-      const index = Math.floor(Math.random() * allProducts.length);
-      selected.push(allProducts.splice(index, 1)[0]);
-    }
-    return selected;
+  getRandomProducts(): Observable<Product[]> {
+    return this.productService.getProducts().pipe(
+      map(products => {
+        const allProducts = [...products]; // Clone to avoid modifying original
+        const selected: Product[] = [];
+        while (selected.length < 3 && allProducts.length > 0) {
+          const index = Math.floor(Math.random() * allProducts.length);
+          selected.push(allProducts.splice(index, 1)[0]);
+        }
+        return selected;
+      })
+    );
   }
+  
   
   goToShop() {
     this.router.navigate(['/shop']);

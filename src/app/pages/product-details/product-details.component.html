@@ -1,67 +1,69 @@
 <div class="product-detail-container">
-
   <div class="product-details-left">
     <button class="back-button" mat-stroked-button color="primary" (click)="goBack()">← Back to Shop</button>
-
-    <img [src]="product?.images?.[0]" alt="{{ product?.name }}" class="product-image" />
-
-    <div class="add-review-section">
-      <h3>Leave a Review</h3>
-      <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
-        <mat-form-field class="spinner" appearance="outline">
-          <mat-label>Rating (1–5)</mat-label>
-          <input matInput type="number" min="1" max="5" required [(ngModel)]="newReview.rating" name="rating" />
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Message</mat-label>
-          <textarea matInput rows="3" [(ngModel)]="newReview.comment" name="message"></textarea>
-        </mat-form-field>
-
-        <button class="review-submit-button" mat-raised-button color="accent" type="submit"
-        [disabled]="reviewForm.invalid">Submit Review</button>
-      </form>
-    </div>
-
-    <div class="reviews-section">
-      <h3>Reviews</h3>
-      @if ((product?.reviews ?? []).length > 0) {
-        <div class="review-container-div">
-          @for (review of product?.reviews; track review) {
-            <mat-card class="review-card">
-              <mat-card-title>{{review.userID}}: {{ review.rating }}/5</mat-card-title>
-              <mat-card-content>{{ review.comment }}</mat-card-content>
-            </mat-card>
-          }
+    
+    <!-- Use async pipe to unwrap the Observable -->
+    <ng-container *ngIf="product$ | async as product">
+      <img [src]="product?.images?.[0]" alt="{{ product?.name }}" class="product-image" />
+      
+      <div class="reviews-section">
+        <h3>Reviews</h3>
+        @if (reviews.length > 0) {
+          <div class="review-container-div">
+            @for (review of reviews; track review) {
+              <mat-card class="review-card">
+                <mat-card-title>{{review.reviewerName}}: {{ review.rating }}/5</mat-card-title>
+                <mat-card-content>{{ review.comment }}</mat-card-content>
+                <mat-card-content>{{ review.date | time}}</mat-card-content>
+              </mat-card>
+            }
+          </div>
+        } @else {
+          <p>No reviews yet.</p>
+        }
+      </div>
+      
+      <div class="add-review-section" *ngIf="currentUser && !getUserHasReviewed()">
+        <h3>Leave a Review</h3>
+        <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+          <mat-form-field class="spinner" appearance="outline">
+            <mat-label>Rating (1–5)</mat-label>
+            <input matInput type="number" min="1" max="5" required [(ngModel)]="newReview.rating" name="rating" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea matInput rows="3" [(ngModel)]="newReview.comment" name="message"></textarea>
+          </mat-form-field>
+          <button class="review-submit-button" mat-raised-button color="accent" type="submit"
+          [disabled]="reviewForm.invalid || isSubmitting">Submit Review</button>
+        </form>
+        <div *ngIf="reviewSubmitted" class="success-message">
+          Review submitted successfully!
         </div>
-      } @else {
-        <p>No reviews yet.</p>
-      }
-    </div>
+      </div>
+    </ng-container>
   </div>
 
   <div class="product-details-right">
-    <div class="product-info">
-      <h2>{{ product?.name }}</h2>
-      @if (product?.onSale) {
-        <p>
-          <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice
-          }} </span>
-          <span class="sale-price">{{ ((product?.price || 0) - ((product?.price || 0) * (product?.discount || 0))) |
-          formatPrice }}</span>
+    <ng-container *ngIf="product$ | async as product">
+      <div class="product-info">
+        <h2>{{ product?.name }}</h2>
+        @if (hasDiscount(product)) {
+          <p>
+            <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice }} </span>
+            <span class="sale-price">{{ getDiscountedPrice(product) | formatPrice }}</span>
+            <span class="discount-badge">-{{ getDiscountPercentage(product) }}</span>
+          </p>
+        } @else {
+          <p>{{ product?.price | formatPrice }}</p>
+        }
+        <p class="stock-info">Stock: {{ product?.stock }}</p>
+        <p class="categories">
+          <strong>Categories:</strong> {{ product?.categories?.join(', ') ?? 'No categories available' }}
         </p>
-      }
-      @if (!product?.onSale) {
-        <p>{{ product?.price | formatPrice }}</p>
-      }
-      <p class="stock-info">Stock: {{ product?.stock }}</p>
-      <p class="categories">
-        <strong>Categories:</strong> {{ product?.categories?.join(', ') ?? 'No categories available' }}
-      </p>
-      <p class="description">{{ product?.description }}</p>
-    </div>
-    <button class="add-to-cart-button" mat-raised-button color="accent" (click)="addToCart()">Add to Cart</button>
+        <p class="description">{{ product?.description }}</p>
+      </div>
+      <button class="add-to-cart-button" mat-raised-button color="accent" (click)="addToCart(product)">Add to Cart</button>
+    </ng-container>
   </div>
-
-
 </div>

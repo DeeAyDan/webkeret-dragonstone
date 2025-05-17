@@ -3,11 +3,6 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Username</mat-label>
-      <input matInput formControlName="username" placeholder="Example" required />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" placeholder="you@example.com" required />
       <mat-hint>Used for login</mat-hint>

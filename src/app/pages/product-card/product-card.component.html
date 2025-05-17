@@ -11,9 +11,9 @@
         }" class="price">{{product.price | formatPrice}}</p>
       @if (product.onSale) {
         <p class="sale-price">
-        {{product.discountedPrice | formatPrice}}</p>
+        {{product.price * (product.discount ?? 1) | formatPrice}}</p>
       }
     </div>
-    <p class="rating"> {{ product.averageRating ? product.averageRating + ' / 5' : '' }}</p>
+    <p class="rating"> {{ averageRating ? averageRating + ' / 5' : '' }}</p>
   </div>
 </div>
