@@ -1,69 +1,151 @@
 <div class="product-detail-container">
   <div class="product-details-left">
-    <button class="back-button" mat-stroked-button color="primary" (click)="goBack()">← Back to Shop</button>
-    
-    <!-- Use async pipe to unwrap the Observable -->
+    <button class="back-button" mat-stroked-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Shop
+    </button>
+   
     <ng-container *ngIf="product$ | async as product">
       <img [src]="product?.images?.[0]" alt="{{ product?.name }}" class="product-image" />
       
       <div class="reviews-section">
-        <h3>Reviews</h3>
+        <h3>Customer Reviews</h3>
         @if (reviews.length > 0) {
           <div class="review-container-div">
             @for (review of reviews; track review) {
               <mat-card class="review-card">
-                <mat-card-title>{{review.reviewerName}}: {{ review.rating }}/5</mat-card-title>
+                <mat-card-title>
+                  <mat-icon>account_circle</mat-icon>
+                  {{review.reviewerName}}
+                </mat-card-title>
+                <mat-card-subtitle>
+                  <app-product-rating
+                    [initialRating]="review.rating"
+                    [readonly]="true"
+                    [showRatingText]="false">
+                  </app-product-rating>
+                  <span class="review-date">{{ review.date | time }}</span>
+                </mat-card-subtitle>
                 <mat-card-content>{{ review.comment }}</mat-card-content>
-                <mat-card-content>{{ review.date | time}}</mat-card-content>
+                
+                @if (canEditReview(review)) {
+                  <mat-card-actions class="review-actions">
+                    <button mat-button color="primary" (click)="editReview(review)">
+                      <mat-icon>edit</mat-icon> Edit
+                    </button>
+                    <button mat-button color="warn" (click)="confirmDeleteReview(review)">
+                      <mat-icon>delete</mat-icon> Delete
+                    </button>
+                  </mat-card-actions>
+                }
               </mat-card>
             }
           </div>
         } @else {
-          <p>No reviews yet.</p>
+          <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
         }
       </div>
-      
-      <div class="add-review-section" *ngIf="currentUser && !getUserHasReviewed()">
-        <h3>Leave a Review</h3>
+     
+      <div class="add-review-section" *ngIf="currentUser && (!getUserHasReviewed() || isEditing)">
+        <h3>{{ isEditing ? 'Edit Your Review' : 'Write a Review' }}</h3>
         <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
           <mat-form-field class="spinner" appearance="outline">
-            <mat-label>Rating (1–5)</mat-label>
+            <mat-label>Your Rating</mat-label>
             <input matInput type="number" min="1" max="5" required [(ngModel)]="newReview.rating" name="rating" />
+            <mat-hint>Rate from 1 to 5 stars</mat-hint>
           </mat-form-field>
+          
           <mat-form-field appearance="outline">
-            <mat-label>Message</mat-label>
-            <textarea matInput rows="3" [(ngModel)]="newReview.comment" name="message"></textarea>
+            <mat-label>Your Review</mat-label>
+            <textarea matInput rows="4" 
+              [(ngModel)]="newReview.comment" 
+              name="message"
+              placeholder="Share your thoughts about this product..."
+              required></textarea>
           </mat-form-field>
-          <button class="review-submit-button" mat-raised-button color="accent" type="submit"
-          [disabled]="reviewForm.invalid || isSubmitting">Submit Review</button>
+          
+          <div class="button-group">
+            @if (isEditing) {
+              <button class="review-update-button" mat-raised-button type="submit"
+                [disabled]="reviewForm.invalid || isSubmitting">
+                <mat-icon>save</mat-icon>
+                Update Review
+              </button>
+              <button class="review-cancel-button" mat-raised-button type="button"
+                (click)="cancelEdit()">
+                <mat-icon>close</mat-icon>
+                Cancel
+              </button>
+            } @else {
+              <button class="review-submit-button" mat-raised-button type="submit"
+                [disabled]="reviewForm.invalid || isSubmitting">
+                <mat-icon>rate_review</mat-icon>
+                Submit Review
+              </button>
+            }
+          </div>
         </form>
+        
         <div *ngIf="reviewSubmitted" class="success-message">
-          Review submitted successfully!
+          <mat-icon>check_circle</mat-icon>
+          {{ isEditing ? 'Review updated successfully!' : 'Review submitted successfully!' }}
         </div>
       </div>
     </ng-container>
   </div>
-
+  
   <div class="product-details-right">
     <ng-container *ngIf="product$ | async as product">
       <div class="product-info">
         <h2>{{ product?.name }}</h2>
+        
+        <app-product-rating
+          [initialRating]="product.averageRating || 0"
+          [readonly]="true"
+          [showRatingText]="true"
+          [ratingCount]="product.ratingCount">
+        </app-product-rating>
+
         @if (hasDiscount(product)) {
-          <p>
-            <span style="text-decoration:line-through; color: red;" class="original-price">{{ product?.price | formatPrice }} </span>
+          <div class="price-container">
+            <span class="original-price">{{ product?.price | formatPrice }}</span>
             <span class="sale-price">{{ getDiscountedPrice(product) | formatPrice }}</span>
             <span class="discount-badge">-{{ getDiscountPercentage(product) }}</span>
-          </p>
+          </div>
         } @else {
-          <p>{{ product?.price | formatPrice }}</p>
+          <div class="price-container">
+            <span class="sale-price">{{ product?.price | formatPrice }}</span>
+          </div>
         }
-        <p class="stock-info">Stock: {{ product?.stock }}</p>
-        <p class="categories">
-          <strong>Categories:</strong> {{ product?.categories?.join(', ') ?? 'No categories available' }}
+
+        <p class="stock-info">
+          <mat-icon>inventory_2</mat-icon>
+          {{ product.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+          <span *ngIf="product.stock > 0">({{ product.stock }} available)</span>
         </p>
-        <p class="description">{{ product?.description }}</p>
+
+        <p class="categories">
+          <strong>Categories:</strong> 
+          <span class="category-tags">
+            @for (category of product.categories; track category) {
+              <span class="category-tag">{{ category }}</span>
+            }
+          </span>
+        </p>
+
+        <div class="description">
+          <h3>About this product</h3>
+          <p>{{ product?.description }}</p>
+        </div>
+
+        <button class="add-to-cart-button" 
+          mat-raised-button 
+          (click)="addToCart(product)"
+          [disabled]="product.stock === 0">
+          <mat-icon>shopping_cart</mat-icon>
+          {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
+        </button>
       </div>
-      <button class="add-to-cart-button" mat-raised-button color="accent" (click)="addToCart(product)">Add to Cart</button>
     </ng-container>
   </div>
 </div>

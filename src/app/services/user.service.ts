@@ -6,11 +6,8 @@ import {
   doc, 
   getDoc, 
   getDocs, 
-  query, 
-  where 
+  updateDoc
 } from '@angular/fire/firestore';
-import { Observable, from, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +40,8 @@ export class UserService {
       const userSnap = await getDoc(userRef);
       
       if (userSnap.exists()) {
-        return userSnap.data() as User;
+        return { id: userSnap.id, ...userSnap.data() } as User;
       } else {
-        console.log(`User with ID ${id} not found`);
         return undefined;
       }
     } catch (error) {
@@ -70,4 +66,15 @@ export class UserService {
       return undefined;
     }
   }
+
+  // Update user profile
+  async updateUser(userId: string, userData: Partial<User>): Promise<void> {
+    try {
+      const userRef = doc(this.firestore, 'Users', userId);
+      await updateDoc(userRef, userData);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
   }
+}

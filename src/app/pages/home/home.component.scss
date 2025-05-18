@@ -1,16 +1,18 @@
 .home-container {
   text-align: center;
-  padding: 20px;
+  padding: 2rem;
   display: flex;
-  max-width: 80vw;
+  max-width: 1200px;
   justify-content: center;
-  margin: 50px auto 0 auto;
+  margin: 4rem auto;
+  gap: 4rem;
+
   @media screen and (max-width: 800px) {
-    max-width: 100vw;
     flex-direction: column;
-    margin: 0;
+    margin: 2rem auto;
     align-items: center;
-    gap: 30px;
+    gap: 3rem;
+    padding: 1rem;
   }
 }
 
@@ -20,53 +22,111 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+  
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
 
-.left p {
-  width: 80%;
-  text-align: center;
+  h1 {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-family: inherit;
+  }
+
+  p {
+    width: 80%;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
 }
 
 .buttons {
-  margin-bottom: 20px;
   display: flex;
-  justify-items: center;
-  gap: 15px;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
   @media screen and (max-width: 770px) {
     flex-direction: column;
-    margin: 0;
     align-items: center;
-    gap: 5px;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  button {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-family: inherit;
+    
+    &.mat-mdc-stroked-button {
+      border-color: var(--accent);
+      color: var(--accent);
+      
+      &:hover {
+        background-color: rgba(0, 173, 181, 0.1);
+      }
+    }
+  }
+}
+
+.right {
+  width: 50%;
+  
+  @media screen and (max-width: 800px) {
+    width: 100%;
   }
 }
 
 .product-cards {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin: 10px;
+  position: relative;
+  height: 300px;
+  perspective: 1000px;
 }
 
 .product-card {
   width: 200px;
-  height: 200px;
+  height: 280px;
+  position: absolute;
   cursor: pointer;
-  box-shadow: 15px 40px 8px rgb(17, 17, 17);
-  border: 2px solid rgb(68, 0, 49);
-}
+  transition: all 0.3s ease-in-out;
+  background-color: var(--surface);
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
-.product-card:hover {
-  z-index: 20;
-  transform: translateY(-40px);
-  transition: all 0.1s ease-in-out;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover {
+    transform: translateY(-20px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    z-index: 30;
+  }
 }
 
 .middle-card {
-  z-index: 10;
-  margin: 0 calc(-100px + 1vw);
+  z-index: 20;
+  transform: translateZ(50px);
 }
 
 .rotated-card {
-  margin-top: 20px;
-  z-index: 5;
+  &.left-card {
+    transform: translateX(-50%) rotateY(15deg);
+    z-index: 10;
+  }
+
+  &.right-card {
+    transform: translateX(50%) rotateY(-15deg);
+    z-index: 10;
+  }
 }

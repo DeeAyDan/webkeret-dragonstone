@@ -1,0 +1,9 @@
+h2 {
+    margin-top: 0;
+  }
+  [mat-dialog-actions] {
+    padding: 12px 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }

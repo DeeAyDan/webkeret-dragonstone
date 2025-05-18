@@ -34,9 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getRandomProducts().subscribe(products => {
       this.randomProducts = products;
     });
-
-    console.log(this.productService.getProductById('101'))
-  
+      
     // Auth subscription
     this.userAuthSubscription = this.authService.isLoggedIn().subscribe(user => {
       this.currentUser = user;
@@ -54,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   
   updateWelcomeMessage() {
     if (this.isLoggedIn && this.currentUser?.email) {
-      this.welcomeMessage = `Welcome back to Dragonstone, ${this.currentUser.uid}!`;
+      this.welcomeMessage = `Welcome back to Dragonstone, ${this.currentUser.email}!`;
     } else {
       this.welcomeMessage = 'Welcome to Dragonstone';
     }
@@ -63,7 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   getRandomProducts(): Observable<Product[]> {
     return this.productService.getProducts().pipe(
       map(products => {
-        const allProducts = [...products]; // Clone to avoid modifying original
+        const allProducts = [...products];
         const selected: Product[] = [];
         while (selected.length < 3 && allProducts.length > 0) {
           const index = Math.floor(Math.random() * allProducts.length);

@@ -1,11 +1,45 @@
 .shop-container {
-  text-align: center;
+  padding: 2rem;
+  min-height: 400px;
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,  minmax( 225px, 1fr));
-  grid-gap: 20px;
-  margin: 10px 5vw;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
   justify-items: center;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+
+  p {
+    color: #6c757d;
+    font-size: 1.1rem;
+  }
+}
+
+.no-products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #6c757d;
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
 }

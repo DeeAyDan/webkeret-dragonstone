@@ -1,0 +1,29 @@
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.stars span {
+  cursor: pointer;
+  font-size: 24px;
+  color: #ddd;
+}
+
+.stars span.filled {
+  color: #ffd700;
+}
+
+.stars span.readonly {
+  cursor: default;
+}
+
+.rating-text, .rating-count {
+  color: #666;
+  font-size: 14px;
+} 

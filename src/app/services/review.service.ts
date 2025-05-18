@@ -29,7 +29,7 @@ export class ReviewService {
   ) {}
 
   getReviews(): Observable<Review[]> {
-    const reviewsRef = collection(this.firestore, 'reviews');
+    const reviewsRef = collection(this.firestore, 'Reviews');
     const q = query(reviewsRef, orderBy('date', 'desc'));
     return collectionData(q, { idField: 'id' }).pipe(
       map(reviews => this.convertDates(reviews as DocumentData[]))
@@ -37,7 +37,7 @@ export class ReviewService {
   }
 
   getReviewsByProduct(productID: string): Observable<Review[]> {
-    const reviewsRef = collection(this.firestore, 'reviews');
+    const reviewsRef = collection(this.firestore, 'Reviews');
     const q = query(
       reviewsRef, 
       where('productID', '==', productID),
@@ -50,7 +50,7 @@ export class ReviewService {
   }
 
   async addReview(review: Omit<Review, 'date'>): Promise<string> {
-    const reviewsRef = collection(this.firestore, 'reviews');
+    const reviewsRef = collection(this.firestore, 'Reviews');
     const reviewWithDate = { 
       ...review,
       date: serverTimestamp()
@@ -79,4 +79,16 @@ export class ReviewService {
       } as Review;
     });
   }
+async deleteReview(reviewId: string): Promise<void> {
+  const reviewDocRef = doc(this.firestore, 'Reviews', reviewId);
+  await deleteDoc(reviewDocRef);
+}
+
+async updateReview(reviewId: string, updatedData: Partial<Review>): Promise<void> {
+  const reviewDocRef = doc(this.firestore, 'Reviews', reviewId);
+  await updateDoc(reviewDocRef, {
+    ...updatedData,
+    date: serverTimestamp()
+  });
+}
 }

@@ -19,6 +19,6 @@ export const routes: Routes = [
     {path : 'register', component: RegisterComponent, canActivate: [publicGuard]},
     {path : 'product/:id', component: ProductDetailsComponent},
     {path : '', redirectTo: 'home', pathMatch: 'full'},
-    {path : '**', component: PageNotFoundComponent}
+    {path : '**', component: PageNotFoundComponent},
 
 ];

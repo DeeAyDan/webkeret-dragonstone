@@ -1,0 +1,18 @@
+<div class="rating-container">
+  <div class="stars">
+    <span 
+      *ngFor="let star of stars; let i = index" 
+      (click)="onRatingClick(i + 1)"
+      [class.filled]="i < currentRating"
+      [class.readonly]="readonly"
+    >
+      ★
+    </span>
+  </div>
+  <div class="rating-text" *ngIf="showRatingText">
+    {{ currentRating }} out of 5
+  </div>
+  <div class="rating-count" *ngIf="ratingCount !== undefined">
+    ({{ ratingCount }} ratings)
+  </div>
+</div> 

@@ -25,6 +25,9 @@ import { Subscription, take, Observable } from 'rxjs';
 import { User as FirebaseUser } from '@angular/fire/auth';
 import { UserService } from '../../services/user.service';
 import { TimePipe } from '../../shared/pipes/time.pipe';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog/confirm-dialog.component';
+import { ProductRatingComponent } from "../product-rating/product-rating.component";
 
 @Component({
   selector: 'app-product-details',
@@ -41,15 +44,16 @@ import { TimePipe } from '../../shared/pipes/time.pipe';
     NgIf,
     AsyncPipe,
     CommonModule,
-    TimePipe
-  ],
+    TimePipe,
+    MatDialogModule,
+    ProductRatingComponent
+],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
   product$: Observable<Product | undefined> | undefined;
   productId: string | null = null;
-  nameOfReviewer: string | null = null;
   reviews: Review[] = [];
   currentUser: FirebaseUser | null = null;
   authSubscription: Subscription | undefined;
@@ -64,6 +68,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   isSubmitting = false;
   reviewSubmitted = false;
+  isEditing = false;
+  editingReviewId: string | null = null;
 
   constructor(
     private router: Router,
@@ -72,7 +78,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     private reviewService: ReviewService,
     private authService: AuthService,
     private cartService: CartService,
-    private userService: UserService
+    private userService: UserService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -146,13 +153,20 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     this.isSubmitting = true;
 
     try {
-      await this.reviewService.addReview({
-        ...this.newReview,
-        productID: this.productId,
-        userID: this.currentUser.uid,
-      });
+      if (this.isEditing && this.editingReviewId) {
+        await this.reviewService.updateReview(this.editingReviewId, {
+          ...this.newReview,
+          productID: this.productId,
+          userID: this.currentUser.uid,
+        });
+      } else {
+        await this.reviewService.addReview({
+          ...this.newReview,
+          productID: this.productId,
+          userID: this.currentUser.uid,
+        });
+      }
 
-      // Reset form
       this.newReview = {
         rating: 5,
         comment: '',
@@ -161,6 +175,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       };
 
       this.reviewSubmitted = true;
+      this.isEditing = false;
+      this.editingReviewId = null;
+      
       setTimeout(() => {
         this.reviewSubmitted = false;
       }, 3000);
@@ -181,6 +198,100 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     return this.reviews.some(
       (review) => review.userID === this.currentUser?.uid
     );
+  }
+
+  /**
+   * Check if user can edit a review
+   */
+  canEditReview(review: Review): boolean {
+    return this.currentUser?.uid === review.userID;
+  }
+
+  /**
+   * Edit review
+   */
+  editReview(review: Review) {
+    if (!this.currentUser) {
+      alert('Please log in to edit a review');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Populate form with existing review data
+    this.newReview = {
+      rating: review.rating,
+      comment: review.comment,
+      userID: review.userID,
+      productID: review.productID,
+    };
+
+    this.isEditing = true;
+    this.editingReviewId = review.id ?? null;
+
+    // Scroll to the edit form
+    const reviewForm = document.querySelector('.add-review-section');
+    if (reviewForm) {
+      reviewForm.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  /**
+   * Cancel editing
+   */
+  cancelEdit() {
+    this.isEditing = false;
+    this.editingReviewId = null;
+    
+    // Reset form
+    this.newReview = {
+      rating: 5,
+      comment: '',
+      userID: this.currentUser?.uid || '',
+      productID: this.productId || '',
+    };
+  }
+
+  /**
+   * Delete review
+   */
+  confirmDeleteReview(review: Review) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Delete Review',
+        message: 'Are you sure you want to delete this review?',
+        confirmText: 'Delete',
+        cancelText: 'Cancel'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && review.id) {
+        this.deleteReview(review.id);
+      }
+    });
+  }
+
+  /**
+   * Delete review implementation
+   */
+  async deleteReview(reviewId: string) {
+    if (!this.currentUser) {
+      alert('Please log in to delete a review');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    try {
+      await this.reviewService.deleteReview(reviewId);
+      // If we were editing this review, reset the form
+      if (this.editingReviewId === reviewId) {
+        this.cancelEdit();
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      alert('Failed to delete review. Please try again.');
+    }
   }
 
   /**

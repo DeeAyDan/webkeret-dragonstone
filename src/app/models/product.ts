@@ -10,4 +10,6 @@ export interface Product {
     discount?: number;
     reviews?: any;
     averageRating?: number;
+    discountedPrice?: number;
+    ratingCount?: number;
   }

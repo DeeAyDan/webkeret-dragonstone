@@ -1,19 +1,50 @@
-<div class="product-card" (click)="onClick()">
-  <img loading="lazy" [src]="product.images[0]" [alt]="product.name" />
-  <div class="product-name">{{ product.name }}</div>
-  <div class="price-container">
-    <div>
-      <p [ngStyle]="{ 
-          'color': product.onSale ? 'red' : 'inherit',
-          'text-decoration': product.onSale ? 'line-through' : 'normal',
-          'font-size': product.onSale ? '0.8em' : '1em',
-          'display': product.onSale ? 'inline' : 'block',
-        }" class="price">{{product.price | formatPrice}}</p>
-      @if (product.onSale) {
-        <p class="sale-price">
-        {{product.price * (product.discount ?? 1) | formatPrice}}</p>
-      }
+<div class="product-card" [class.compact]="isCompact">
+  <div class="image-container" [style.background-color]="backgroundColor">
+    <img [src]="product.images[0]" [alt]="product.name" (error)="onImageError()">
+    <div class="discount-badge" *ngIf="product.onSale && product.discount">
+      -{{ (product.discount * 100) | number:'1.0-0' }}%
     </div>
-    <p class="rating"> {{ averageRating ? averageRating + ' / 5' : '' }}</p>
+  </div>
+  
+  <div class="product-info">
+    <h3 [class.truncate]="truncateTitle">{{ product.name }}</h3>
+    
+    <app-product-rating
+      [initialRating]="product.averageRating || 0"
+      [readonly]="true"
+      [showRatingText]="false"
+      [ratingCount]="product.ratingCount"
+    ></app-product-rating>
+
+    <div class="price-container">
+      <span class="original-price" *ngIf="product.onSale && product.discount">
+        {{ product.price | currency }}
+      </span>
+      <span class="current-price" [class.discounted]="product.onSale && product.discount">
+        {{ getCurrentPrice() | currency }}
+      </span>
+    </div>
+
+    <div class="stock-status" *ngIf="showStock">
+      <span [class.in-stock]="product.stock > lowStockThreshold">
+        {{ getStockStatus() }}
+      </span>
+    </div>
+
+    <div class="actions" *ngIf="!isCompact">
+      <button 
+        class="add-to-cart"
+        (click)="onAddToCart($event)"
+        [disabled]="!product.stock"
+      >
+        Add to Cart
+      </button>
+      <button 
+        class="details"
+        (click)="onViewDetails($event)"
+      >
+        View Details
+      </button>
+    </div>
   </div>
 </div>

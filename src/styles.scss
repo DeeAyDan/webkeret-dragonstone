@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @font-face {
     font-family: 'MyGothicFont';
     src: url('./app/fonts/TheGlorious-Regular.otf') format('truetype');
@@ -5,21 +6,169 @@
     font-style: normal;
 }
 
-$bg-color: #1A1A1D;
-$accent-color: #3B1C32;
-$highlight-color: #6A1E55;
-$secondary-color: #a64d79;
-$text-color: #bcbcbc;
+:root {
+  --primary-dark: #222831;
+  --secondary-dark: #393E46;
+  --accent: #00ADB5;
+  --light: #EEEEEE;
 
-
-body{
-    background-color: $accent-color;
-    margin: 0;
-    padding: 0;
+  // Additional shades
+  --accent-light: #1fc8d0;
+  --accent-dark: #008b92;
+  --text-primary: var(--light);
+  --text-secondary: #b2b2b2;
+  --background: var(--primary-dark);
+  --surface: var(--secondary-dark);
+  --error: #ff4444;
+  --success: #00C851;
 }
 
-*{
-    color: $text-color;
-    font-family: 'MyGothicFont', serif;
-    font-size: 1.1rem;
+// Global styles
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'MyGothicFont', serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+* {
+  font-family: 'MyGothicFont', serif;
+  font-size: 1.1rem;
+}
+
+// Material theme overrides
+.mat-mdc-card {
+  background-color: var(--surface) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-card-subtitle {
+  color: var(--text-secondary) !important;
+}
+
+// Buttons
+.mat-mdc-button.mat-primary,
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  background-color: var(--accent) !important;
+  color: var(--light) !important;
+}
+
+.mat-mdc-button.mat-accent,
+.mat-mdc-raised-button.mat-accent,
+.mat-mdc-unelevated-button.mat-accent {
+  background-color: var(--accent-light) !important;
+  color: var(--light) !important;
+}
+
+// Toolbar
+.mat-toolbar {
+  background-color: var(--surface) !important;
+  color: var(--text-primary) !important;
+}
+
+// Progress spinner
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: var(--accent);
+}
+
+// Form fields
+.mat-mdc-form-field {
+  width: 100%;
+  
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--surface);
+  }
+  
+  .mat-mdc-form-field-label {
+    color: var(--text-secondary);
+  }
+  
+  .mat-mdc-input-element {
+    color: var(--text-primary);
+  }
+}
+
+// Links
+a {
+  color: var(--accent);
+  text-decoration: none;
+  
+  &:hover {
+    color: var(--accent-light);
+  }
+}
+
+// Common utility classes
+.accent-text {
+  color: var(--accent) !important;
+}
+
+.light-text {
+  color: var(--light) !important;
+}
+
+.secondary-text {
+  color: var(--text-secondary) !important;
+}
+
+// Image containers
+.image-container {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+// Cards
+.mat-mdc-card {
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Buttons
+button {
+  &.primary-button {
+    background-color: var(--accent);
+    color: var(--light);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--accent-light);
+      transform: translateY(-2px);
+    }
+  }
+
+  &.secondary-button {
+    background-color: var(--surface);
+    color: var(--text-primary);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--secondary-dark);
+      transform: translateY(-2px);
+    }
+  }
 }

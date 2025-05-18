@@ -1,7 +1,24 @@
 <div class="shop-container">
-  <div class="product-grid">
-    @for (product of products; track product) {
-      <app-product-card [product]="product"
-      (productClick)="showProductDetails($event)"></app-product-card>
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading products...</p>
+    </div>
+  } @else {
+    @if (products.length > 0) {
+      <div class="product-grid">
+        @for (product of products; track product) {
+          <app-product-card 
+            [product]="product"
+            (productClick)="showProductDetails(product)">
+          </app-product-card>
+        }
+      </div>
+    } @else {
+      <div class="no-products">
+        <mat-icon>inventory_2</mat-icon>
+        <p>No products available</p>
+      </div>
     }
-  </div>
+  }
+</div>

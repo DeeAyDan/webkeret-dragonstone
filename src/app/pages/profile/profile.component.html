@@ -1,1 +1,43 @@
-<p>Soon, második mérföldkő!</p>
+<div class="profile-container">
+  <div class="profile-card">
+    <h1>Profile Settings</h1>
+    
+    @if (loading) {
+    <div class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    } @else {
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter your name">
+        @if (profileForm.get('name')?.hasError('required') && profileForm.get('name')?.touched) {
+        <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Your email">
+        <mat-hint>Email cannot be changed</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <textarea matInput formControlName="address" placeholder="Enter your address" rows="3"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input matInput formControlName="phone" placeholder="Enter your phone number">
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid || loading">
+          Save Changes
+        </button>
+      </div>
+    </form>
+    }
+  </div>
+</div>

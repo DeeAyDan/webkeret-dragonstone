@@ -10,12 +10,9 @@ import {
   doc, 
   getDoc, 
   setDoc, 
-  updateDoc, 
-  query, 
-  where, 
-  getDocs 
+  updateDoc
 } from '@angular/fire/firestore';
-import { Observable, from, of, combineLatest, BehaviorSubject } from 'rxjs';
+import { Observable, from, of, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { map, switchMap, catchError, take } from 'rxjs/operators';
 
 @Injectable({
@@ -24,6 +21,7 @@ import { map, switchMap, catchError, take } from 'rxjs/operators';
 export class CartService {
   private cartItems = new BehaviorSubject<Cart | undefined>(undefined);
   public cart$ = this.cartItems.asObservable();
+  private cartsCollection;
 
   constructor(
     private userService: UserService,
@@ -31,6 +29,8 @@ export class CartService {
     private authService: AuthService,
     private productService: ProductService
   ) {
+    this.cartsCollection = collection(this.firestore, 'Carts');
+    
     // Initialize cart based on authentication status
     this.authService.currentUser.subscribe(user => {
       if (user) {
@@ -50,23 +50,53 @@ export class CartService {
     return from(this.getCartFromFirebase(userID)).pipe(
       catchError(error => {
         console.error('Error getting cart:', error);
-        return of(undefined);
+        // Return a default cart structure instead of undefined
+        return of({
+          userID: userID || 'guest',
+          items: [],
+          total: 0
+        });
       })
     );
   }
 
   // Get cart as a Promise
   async getCart(userID: string): Promise<Cart | undefined> {
-    return this.getCartFromFirebase(userID);
+    try {
+      const cart = await this.getCartFromFirebase(userID);
+      // If cart is undefined, return a default cart structure
+      if (!cart) {
+        return {
+          userID: userID || 'guest',
+          items: [],
+          total: 0
+        };
+      }
+      return cart;
+    } catch (error) {
+      console.error('Error in getCart:', error);
+      // Return a default cart structure in case of error
+      return {
+        userID: userID || 'guest',
+        items: [],
+        total: 0
+      };
+    }
   }
 
   private async getCartFromFirebase(userID: string): Promise<Cart | undefined> {
     try {
-      const cartRef = doc(collection(this.firestore, 'Carts'), userID);
+      // Access the cart document directly using the userID
+      const cartRef = doc(this.cartsCollection, userID);
       const cartSnap = await getDoc(cartRef);
       
       if (cartSnap.exists()) {
-        return cartSnap.data() as Cart;
+        const cartData = cartSnap.data() as Cart;
+        // Ensure items array exists
+        if (!cartData.items) {
+          cartData.items = [];
+        }
+        return cartData;
       } else {
         // Create a new cart if it doesn't exist
         const newCart: Cart = {
@@ -86,7 +116,7 @@ export class CartService {
   async addToCart(product: Product): Promise<void> {
     try {
       // Get current user ID
-      const user = await this.authService.currentUser.pipe(take(1)).toPromise();
+      const user = await firstValueFrom(this.authService.currentUser.pipe(take(1)));
       const userID = user ? user.uid : 'guest';
       
       const cart = await this.getCart(userID);
@@ -99,7 +129,7 @@ export class CartService {
       }
 
       let productID = product.id;
-      let item = cart.items.find(i => i.productID === product.id);
+      let item = cart.items.find(i => i.productID === productID);
       
       if (item) {
         item.quantity += 1;
@@ -107,7 +137,7 @@ export class CartService {
         cart.items.push({ productID, quantity: 1 });
       }
       
-      // Use the product service to calculate total with discounts
+      // Update cart total
       await this.updateCartTotal(cart, userID);
       
       // Update cart in BehaviorSubject
@@ -120,7 +150,7 @@ export class CartService {
   async removeFromCart(productId: string): Promise<void> {
     try {
       // Get current user ID
-      const user = await this.authService.currentUser.pipe(take(1)).toPromise();
+      const user = await firstValueFrom(this.authService.currentUser.pipe(take(1)));
       const userID = user ? user.uid : 'guest';
       
       const cart = await this.getCart(userID);
@@ -141,7 +171,7 @@ export class CartService {
   async decreaseQuantity(productId: string): Promise<void> {
     try {
       // Get current user ID
-      const user = await this.authService.currentUser.pipe(take(1)).toPromise();
+      const user = await firstValueFrom(this.authService.currentUser.pipe(take(1)));
       const userID = user ? user.uid : 'guest';
       
       const cart = await this.getCart(userID);
@@ -169,10 +199,10 @@ export class CartService {
   async clearCart(): Promise<void> {
     try {
       // Get current user ID
-      const user = await this.authService.currentUser.pipe(take(1)).toPromise();
+      const user = await firstValueFrom(this.authService.currentUser.pipe(take(1)));
       const userID = user ? user.uid : 'guest';
       
-      const cartRef = doc(collection(this.firestore, 'Carts'), userID);
+      const cartRef = doc(this.cartsCollection, userID);
       const emptyCart: Cart = {
         userID,
         items: [],
@@ -189,36 +219,81 @@ export class CartService {
   }
 
   private async updateCartTotal(cart: Cart, userID: string): Promise<void> {
-    // Create an array of promises to get product prices
-    const pricePromises = cart.items.map(item => 
-      this.productService.getProductById(item.productID).pipe(take(1)).toPromise()
-    );
-    
-    // Resolve all promises to get products
-    const products = await Promise.all(pricePromises);
-    
-    // Calculate cart total with proper discount handling
-    let total = 0;
-    for (let i = 0; i < cart.items.length; i++) {
-      const item = cart.items[i];
-      const product = products[i];
-      
-      if (product) {
-        let price = product.price;
-        // Apply discount if available
-        if (product.discount && product.discount > 0) {
-          price = this.productService.getDiscountedPrice(price, product.discount);
-        }
-        total += price * item.quantity;
+    try {
+      // Ensure cart is valid
+      if (!cart) {
+        console.error('Cannot update cart total: cart is undefined');
+        return;
       }
+      
+      // Ensure items array exists
+      if (!cart.items) {
+        cart.items = [];
+      }
+      
+      // Calculate cart total with proper discount handling
+      let total = 0;
+
+      // Process each cart item one by one
+      for (const item of cart.items) {
+        try {
+          // Check if item is valid
+          if (!item) {
+            console.error('Invalid cart item encountered');
+            continue;
+          }
+          
+          // Check if productID exists
+          if (!item.productID) {
+            console.error('ProductID is missing for item:', item);
+            continue;
+          }
+          
+          // Check if quantity is valid
+          if (typeof item.quantity !== 'number' || isNaN(item.quantity)) {
+            console.error('Invalid quantity for item:', item);
+            item.quantity = 1; // Set a default quantity
+          }
+                    
+          const product = await firstValueFrom(
+            this.productService.getProductById(item.productID).pipe(
+              take(1),
+              catchError(error => {
+                console.error(`Error fetching product ${item.productID}:`, error);
+                return of(null);
+              })
+            )
+          );
+          
+          if (product) {
+            let price = typeof product.price === 'number' ? product.price : 0;
+            // Apply discount if available
+            if (product.discount && product.discount > 0) {
+              price = this.productService.getDiscountedPrice(price, product.discount);
+            }
+            total += price * item.quantity;
+          }
+        } catch (error) {
+          console.error(`Error processing product ${item?.productID}:`, error);
+        }
+      }
+      
+      // Round to 2 decimal places
+      cart.total = Math.round(total * 100) / 100;
+      
+      // Update cart in Firebase
+      try {
+        const cartRef = doc(this.cartsCollection, userID);
+        await updateDoc(cartRef, { 
+          items: cart.items,
+          total: cart.total 
+        });
+      } catch (firebaseError) {
+        console.error('Error updating cart in Firebase:', firebaseError);
+      }
+    } catch (error) {
+      console.error('Error updating cart total:', error);
     }
-    
-    // Round to 2 decimal places
-    cart.total = Math.round(total * 100) / 100;
-    
-    // Update cart in Firebase
-    const cartRef = doc(collection(this.firestore, 'Carts'), userID);
-    await updateDoc(cartRef, { items: cart.items, total: cart.total });
   }
 
   // Get current user's cart
@@ -230,7 +305,7 @@ export class CartService {
   getCartItemCount(): Observable<number> {
     return this.cart$.pipe(
       map(cart => {
-        if (!cart) return 0;
+        if (!cart || !cart.items) return 0;
         return cart.items.reduce((count, item) => count + item.quantity, 0);
       })
     );

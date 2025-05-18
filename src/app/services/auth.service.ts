@@ -76,8 +76,7 @@ export class AuthService {
     userData: Partial<User>
   ): Promise<void> {
     try {
-      // Use lowercase 'users' to match your Firestore collection name
-      const userRef = doc(collection(this.firestore, 'users'), userID);
+      const userRef = doc(collection(this.firestore, 'Users'), userID);
       return setDoc(userRef, userData);
     } catch (error) {
       console.error('Error creating user data:', error);
